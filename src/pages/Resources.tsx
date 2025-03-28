@@ -96,7 +96,7 @@ const ResourceCard = ({ resource, onClick }: ResourceCardProps) => {
   const getTypeColor = (type: string) => {
     switch (type) {
       case 'document':
-        return 'text-blue-500 bg-blue-50';
+        return 'text-sky-500 bg-sky-50';
       case 'guide':
         return 'text-purple-500 bg-purple-50';
       case 'video':
@@ -109,7 +109,7 @@ const ResourceCard = ({ resource, onClick }: ResourceCardProps) => {
   };
 
   return (
-    <Card className="hover:shadow-md transition-shadow" onClick={onClick}>
+    <Card className="bg-white border-0 shadow-sm hover:shadow-md transition-shadow" onClick={onClick}>
       <CardContent className="p-0">
         <div className="flex items-center p-4">
           <div className={`p-2 rounded-lg mr-4 ${getTypeColor(type)}`}>

@@ -1,6 +1,6 @@
 
 import { Link, useLocation } from "react-router-dom";
-import { Calendar, Clock, File, Home, MessageSquare, User } from "lucide-react";
+import { Home, Calendar, FileText, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const MobileNavigation = () => {
@@ -13,29 +13,24 @@ const MobileNavigation = () => {
       path: "/",
     },
     {
-      label: "Shifts",
+      label: "Bookings",
       icon: Calendar,
       path: "/shifts",
     },
     {
-      label: "Clients",
+      label: "Resources",
+      icon: FileText,
+      path: "/resources",
+    },
+    {
+      label: "Profile",
       icon: User,
-      path: "/clients",
-    },
-    {
-      label: "Timesheets",
-      icon: Clock,
-      path: "/timesheets",
-    },
-    {
-      label: "Messages",
-      icon: MessageSquare,
-      path: "/messages",
+      path: "/profile",
     },
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-10 bg-white border-t shadow-lg">
+    <nav className="fixed bottom-0 left-0 right-0 z-10 bg-white border-t">
       <div className="flex justify-around items-center h-16">
         {navItems.map((item) => {
           const isActive = location.pathname === item.path;
@@ -44,15 +39,22 @@ const MobileNavigation = () => {
             <Link
               key={item.path}
               to={item.path}
-              className={cn(
-                "flex flex-col items-center justify-center w-full h-full transition-colors",
-                isActive 
-                  ? "text-primary" 
-                  : "text-gray-500 hover:text-primary"
-              )}
+              className="flex flex-col items-center justify-center w-full h-full"
             >
-              <item.icon className="w-5 h-5 mb-1" />
-              <span className="text-xs">{item.label}</span>
+              <item.icon 
+                className={cn(
+                  "w-5 h-5 mb-1",
+                  isActive ? "text-sky-500" : "text-gray-400"
+                )} 
+              />
+              <span 
+                className={cn(
+                  "text-xs",
+                  isActive ? "text-sky-500 font-medium" : "text-gray-500"
+                )}
+              >
+                {item.label}
+              </span>
             </Link>
           );
         })}

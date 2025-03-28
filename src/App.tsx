@@ -9,6 +9,8 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Shifts from "./pages/Shifts";
 import Clients from "./pages/Clients";
+import Resources from "./pages/Resources";
+import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 
 // Create a client outside of the component to avoid re-initializations
@@ -37,6 +39,14 @@ const App = () => {
               <Route 
                 path="/clients" 
                 element={isAuthenticated ? <Clients /> : <Navigate to="/login" />} 
+              />
+              <Route 
+                path="/resources" 
+                element={isAuthenticated ? <Resources /> : <Navigate to="/login" />} 
+              />
+              <Route 
+                path="/profile" 
+                element={isAuthenticated ? <Profile /> : <Navigate to="/login" />} 
               />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />

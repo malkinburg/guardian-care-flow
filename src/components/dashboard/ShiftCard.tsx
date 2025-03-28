@@ -1,7 +1,7 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Clock, MapPin, User } from "lucide-react";
+import { Clock, MapPin, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { formatDate, formatTime } from "@/lib/date-utils";
 
@@ -33,8 +33,8 @@ const ShiftCard = ({
   };
 
   return (
-    <Card className="overflow-hidden hover:shadow-md transition-shadow">
-      <CardHeader className="pb-2">
+    <Card className="overflow-hidden hover:shadow-md transition-shadow border-sky-50">
+      <CardHeader className="pb-2 bg-sky-50/50">
         <div className="flex justify-between items-start">
           <CardTitle className="text-lg font-semibold">{clientName}</CardTitle>
           <Badge className={statusColors[status]}>
@@ -48,18 +48,19 @@ const ShiftCard = ({
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-2 gap-2 mb-3">
-          <div className="flex items-center text-sm">
-            <Clock className="h-3.5 w-3.5 mr-1 text-muted-foreground" />
+          <div className="flex items-center text-sm bg-sky-50 p-2 rounded-lg">
+            <Calendar className="h-3.5 w-3.5 mr-1 text-sky-500" />
             <span>{formatDate(date)}</span>
           </div>
-          <div className="flex items-center text-sm justify-end">
+          <div className="flex items-center text-sm justify-end bg-sky-50 p-2 rounded-lg">
+            <Clock className="h-3.5 w-3.5 mr-1 text-sky-500" />
             <span>{formatTime(startTime)} - {formatTime(endTime)}</span>
           </div>
         </div>
         <Button 
           variant="outline" 
           size="sm" 
-          className="w-full"
+          className="w-full border-sky-200 text-sky-700 hover:bg-sky-50"
           onClick={() => onViewDetails?.(id)}
         >
           View Details

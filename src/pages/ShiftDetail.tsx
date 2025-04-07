@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import MainLayout from "@/components/layout/MainLayout";
@@ -30,6 +29,7 @@ const ShiftDetail = () => {
   const [shiftHistory, setShiftHistory] = useState<any[]>([]);
   const [linkedParticipants, setLinkedParticipants] = useState<Participant[]>([]);
   const [potentialWorkers, setPotentialWorkers] = useState<Participant[]>([]);
+  const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
     // In a real app, this would be an API call
@@ -37,51 +37,59 @@ const ShiftDetail = () => {
     
     // Simulate a short loading time
     setTimeout(() => {
-      // Get all shifts from all categories (upcoming, available, completed)
-      const allShifts = [
-        ...MOCK_SHIFTS.upcoming,
-        ...MOCK_SHIFTS.available,
-        ...MOCK_SHIFTS.completed
-      ];
-      
-      const foundShift = allShifts.find(shift => shift.id === id);
-      
-      if (foundShift) {
-        setShift(foundShift);
-        setShiftStatus(foundShift.status as "scheduled" | "in_progress" | "completed" | "cancelled");
+      try {
+        // Get all shifts from all categories (upcoming, available, completed)
+        const allShifts = [
+          ...MOCK_SHIFTS.upcoming,
+          ...MOCK_SHIFTS.available,
+          ...MOCK_SHIFTS.completed
+        ];
         
-        // Get shift history for this client
-        const clientHistory = CLIENT_SHIFT_HISTORY[foundShift.clientName as keyof typeof CLIENT_SHIFT_HISTORY] || [];
-        setShiftHistory(clientHistory);
+        const foundShift = allShifts.find(shift => shift.id === id);
         
-        // If this is a completed shift, we might have some notes already
-        if (foundShift.status === "completed" && foundShift.notes) {
-          setNotes(foundShift.notes);
-        }
+        if (foundShift) {
+          setShift(foundShift);
+          setShiftStatus(foundShift.status as "scheduled" | "in_progress" | "completed" | "cancelled");
+          
+          // Get shift history for this client
+          const clientHistory = CLIENT_SHIFT_HISTORY[foundShift.clientName as keyof typeof CLIENT_SHIFT_HISTORY] || [];
+          setShiftHistory(clientHistory);
+          
+          // If this is a completed shift, we might have some notes already
+          if (foundShift.status === "completed" && foundShift.notes) {
+            setNotes(foundShift.notes);
+          }
 
-        // Find matching participant for this client
-        const matchingParticipant = MOCK_PARTICIPANTS.find(
-          participant => participant.name === foundShift.clientName
-        );
-        
-        // If found, set as the primary linked participant
-        if (matchingParticipant) {
-          setLinkedParticipants([matchingParticipant]);
-        } else {
-          // Otherwise show a sample of participants they might assist
-          setLinkedParticipants(MOCK_PARTICIPANTS.slice(0, 1));
-        }
-
-        // For available shifts, find potential workers based on skills and availability
-        if (foundShift.status === "available") {
-          // Filter workers who are available on the shift date
-          const availableWorkers = MOCK_PARTICIPANTS.filter(worker => 
-            worker.availability?.includes(foundShift.date)
+          // Find matching participant for this client
+          const matchingParticipant = MOCK_PARTICIPANTS.find(
+            participant => participant.name === foundShift.clientName
           );
-          setPotentialWorkers(availableWorkers);
+          
+          // If found, set as the primary linked participant
+          if (matchingParticipant) {
+            setLinkedParticipants([matchingParticipant]);
+          } else {
+            // Otherwise show a sample of participants they might assist
+            setLinkedParticipants(MOCK_PARTICIPANTS.slice(0, 1));
+          }
+
+          // For available shifts, find potential workers based on skills and availability
+          if (foundShift.status === "available") {
+            // Filter workers who are available on the shift date
+            const availableWorkers = MOCK_PARTICIPANTS.filter(worker => 
+              worker.availability?.includes(foundShift.date)
+            );
+            setPotentialWorkers(availableWorkers);
+          }
+        } else {
+          setNotFound(true);
         }
+      } catch (error) {
+        console.error("Error loading shift:", error);
+        setNotFound(true);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     }, 500);
   }, [id]);
 
@@ -156,6 +164,31 @@ const ShiftDetail = () => {
           <div className="animate-pulse text-sky-600 flex flex-col items-center">
             <Clock className="h-10 w-10 mb-2" />
             <p>Loading shift details...</p>
+          </div>
+        </div>
+      </MainLayout>
+    );
+  }
+
+  if (notFound) {
+    return (
+      <MainLayout title="Shift Detail">
+        <div className="p-4">
+          <Button 
+            variant="ghost" 
+            className="mb-4 pl-0 text-sky-700" 
+            onClick={handleBackClick}
+          >
+            <ArrowLeft className="mr-2 h-4 w-4" /> Back to Shifts
+          </Button>
+          
+          <div className="flex flex-col items-center justify-center h-[50vh] text-center">
+            <AlertCircle className="h-12 w-12 text-amber-500 mb-4" />
+            <h2 className="text-xl font-semibold mb-2">Shift Not Found</h2>
+            <p className="text-gray-500 mb-4">The shift you're looking for doesn't exist or has been removed.</p>
+            <Button onClick={() => navigate('/shifts')}>
+              View All Shifts
+            </Button>
           </div>
         </div>
       </MainLayout>

@@ -40,6 +40,10 @@ const App = () => {
                 element={isAuthenticated ? <Shifts /> : <Navigate to="/login" />} 
               />
               <Route 
+                path="/shifts/available" 
+                element={isAuthenticated ? <Shifts initialTab="available" /> : <Navigate to="/login" />} 
+              />
+              <Route 
                 path="/shifts/:id" 
                 element={isAuthenticated ? <ShiftDetail /> : <Navigate to="/login" />} 
               />

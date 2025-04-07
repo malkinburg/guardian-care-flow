@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import MainLayout from "@/components/layout/MainLayout";
@@ -19,12 +20,16 @@ interface FilteredShifts {
   completed: ShiftProps[];
 }
 
-const Shifts = () => {
+interface ShiftsProps {
+  initialTab?: string;
+}
+
+const Shifts = ({ initialTab }: ShiftsProps) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const initialTab = location.state?.activeTab || "upcoming";
+  const locStateTab = location.state?.activeTab;
   
-  const [activeTab, setActiveTab] = useState(initialTab);
+  const [activeTab, setActiveTab] = useState(initialTab || locStateTab || "upcoming");
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
   const [filteredShifts, setFilteredShifts] = useState<FilteredShifts>({
     upcoming: MOCK_SHIFTS.upcoming,

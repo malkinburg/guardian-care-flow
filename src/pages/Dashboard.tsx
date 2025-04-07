@@ -12,6 +12,7 @@ import ShiftNotesAccess from "@/components/dashboard/ShiftNotesAccess";
 import { MOCK_PARTICIPANTS } from "@/data/mockParticipants";
 import { MOCK_SHIFTS } from "@/data/mockShifts";
 import QuickReceiptUpload from "@/components/dashboard/QuickReceiptUpload";
+import QuickExpenseTracker from "@/components/dashboard/QuickExpenseTracker";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -147,6 +148,10 @@ const Dashboard = () => {
           <QuickReceiptUpload />
         </div>
         
+        <div className="mb-6">
+          <QuickExpenseTracker />
+        </div>
+
         <div className="mb-6">
           <ShiftNotesAccess limit={3} />
         </div>

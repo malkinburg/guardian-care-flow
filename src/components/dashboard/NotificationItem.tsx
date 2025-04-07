@@ -1,29 +1,24 @@
 
 import { ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import { Notification } from "@/data/mockNotifications";
 
 interface NotificationItemProps {
-  icon: ReactNode;
-  title: string;
-  description: string;
-  time: string;
-  isRead?: boolean;
+  notification: Notification;
   onClick?: () => void;
 }
 
 const NotificationItem = ({
-  icon,
-  title,
-  description,
-  time,
-  isRead = false,
+  notification,
   onClick,
 }: NotificationItemProps) => {
+  const { icon, title, description, time, read } = notification;
+  
   return (
     <div 
       className={cn(
         "flex items-start p-3 cursor-pointer hover:bg-muted rounded-lg transition-colors",
-        !isRead && "bg-blue-50"
+        !read && "bg-blue-50"
       )}
       onClick={onClick}
     >
@@ -35,7 +30,7 @@ const NotificationItem = ({
         <p className="text-xs text-muted-foreground truncate mb-1">{description}</p>
         <span className="text-xs text-muted-foreground">{time}</span>
       </div>
-      {!isRead && (
+      {!read && (
         <div className="h-2 w-2 rounded-full bg-primary mt-1"></div>
       )}
     </div>

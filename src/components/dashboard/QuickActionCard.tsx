@@ -2,6 +2,7 @@
 import { ReactNode } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { Badge } from "@/components/ui/badge";
 
 interface QuickActionCardProps {
   icon: ReactNode;
@@ -9,6 +10,8 @@ interface QuickActionCardProps {
   description?: string;
   onClick?: () => void;
   className?: string;
+  badgeCount?: number;
+  badgeColor?: string;
 }
 
 const QuickActionCard = ({
@@ -17,6 +20,8 @@ const QuickActionCard = ({
   description,
   onClick,
   className,
+  badgeCount,
+  badgeColor = "bg-primary",
 }: QuickActionCardProps) => {
   return (
     <Card 
@@ -30,12 +35,17 @@ const QuickActionCard = ({
         <div className="flex-shrink-0 mr-4">
           {icon}
         </div>
-        <div>
+        <div className="flex-1">
           <h3 className="font-medium">{title}</h3>
           {description && (
             <p className="text-sm text-muted-foreground">{description}</p>
           )}
         </div>
+        {typeof badgeCount !== 'undefined' && badgeCount > 0 && (
+          <Badge className={cn("ml-2", badgeColor)}>
+            {badgeCount}
+          </Badge>
+        )}
       </CardContent>
     </Card>
   );

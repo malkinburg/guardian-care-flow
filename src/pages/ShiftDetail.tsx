@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import MainLayout from "@/components/layout/MainLayout";
@@ -28,7 +29,13 @@ const ShiftDetail = () => {
     
     // Simulate a short loading time
     setTimeout(() => {
-      const allShifts = Object.values(MOCK_SHIFTS).flat();
+      // Get all shifts from all categories (upcoming, available, completed)
+      const allShifts = [
+        ...MOCK_SHIFTS.upcoming,
+        ...MOCK_SHIFTS.available,
+        ...MOCK_SHIFTS.completed
+      ];
+      
       const foundShift = allShifts.find(shift => shift.id === id);
       
       if (foundShift) {
@@ -41,7 +48,7 @@ const ShiftDetail = () => {
         
         // If this is a completed shift, we might have some notes already
         if (foundShift.status === "completed" && foundShift.notes) {
-          setNotes(foundShift.notes as string);
+          setNotes(foundShift.notes);
         }
       }
       setLoading(false);

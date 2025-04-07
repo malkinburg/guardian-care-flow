@@ -2,7 +2,7 @@
 import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ShiftCard, { ShiftProps } from "@/components/dashboard/ShiftCard";
-import { useMediaQuery } from "@/hooks/use-mobile";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface ShiftTabsProps {
   activeTab: string;
@@ -23,7 +23,7 @@ const ShiftTabs = ({
   handleViewDetails,
   selectedDate
 }: ShiftTabsProps) => {
-  const isMobile = useMediaQuery("(max-width: 640px)");
+  const isMobile = useIsMobile();
 
   // Count of available shifts (could be used for notification badge)
   const availableShiftCount = filteredShifts.available.length;

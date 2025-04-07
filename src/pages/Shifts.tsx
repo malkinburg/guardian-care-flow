@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import MainLayout from "@/components/layout/MainLayout";
@@ -16,7 +17,11 @@ const Shifts = () => {
   
   const [activeTab, setActiveTab] = useState(initialTab);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
-  const [filteredShifts, setFilteredShifts] = useState<{ [key: string]: ShiftProps[] }>(MOCK_SHIFTS);
+  const [filteredShifts, setFilteredShifts] = useState<{
+    upcoming: ShiftProps[];
+    available: ShiftProps[];
+    completed: ShiftProps[];
+  }>(MOCK_SHIFTS);
   const [viewMode, setViewMode] = useState<"list" | "calendar">("list");
 
   useEffect(() => {
@@ -30,10 +35,11 @@ const Shifts = () => {
     if (selectedDate) {
       const formattedDate = format(selectedDate, "yyyy-MM-dd");
       
-      const filtered = Object.entries(MOCK_SHIFTS).reduce((acc, [key, shifts]) => {
-        acc[key] = shifts.filter(shift => shift.date === formattedDate);
-        return acc;
-      }, {} as { [key: string]: ShiftProps[] });
+      const filtered = {
+        upcoming: MOCK_SHIFTS.upcoming.filter(shift => shift.date === formattedDate),
+        available: MOCK_SHIFTS.available.filter(shift => shift.date === formattedDate),
+        completed: MOCK_SHIFTS.completed.filter(shift => shift.date === formattedDate)
+      };
       
       setFilteredShifts(filtered);
     } else {

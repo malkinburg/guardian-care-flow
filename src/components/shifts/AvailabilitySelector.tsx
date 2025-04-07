@@ -33,20 +33,10 @@ export const AvailabilitySelector = ({ isOpen, onClose }: AvailabilitySelectorPr
   const [currentTimeRange, setCurrentTimeRange] = useState<[number, number]>([9, 17]); // Default 9am-5pm
   const [selectedDay, setSelectedDay] = useState<Date | null>(null);
 
-  const handleSelectDate = (date: Date | undefined) => {
-    if (!date) return;
-    
-    setSelectedDates(prevDates => {
-      const isSelected = prevDates.some(d => format(d, 'yyyy-MM-dd') === format(date, 'yyyy-MM-dd'));
-      
-      if (isSelected) {
-        // Remove date if already selected
-        return prevDates.filter(d => format(d, 'yyyy-MM-dd') !== format(date, 'yyyy-MM-dd'));
-      } else {
-        // Add date if not already selected
-        return [...prevDates, date];
-      }
-    });
+  // Updated handler to receive Date[] as expected by Calendar in multiple mode
+  const handleSelectDate = (dates: Date[] | undefined) => {
+    if (!dates) return;
+    setSelectedDates(dates);
   };
 
   const handleDaySelect = (date: Date) => {
@@ -283,3 +273,4 @@ export const AvailabilitySelector = ({ isOpen, onClose }: AvailabilitySelectorPr
     </Dialog>
   );
 };
+

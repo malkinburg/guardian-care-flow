@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Calendar, Clock, MessageSquare, FileText, ChevronRight, Users } from "lucide-react";
@@ -133,8 +132,7 @@ const Dashboard = () => {
         </div>
         
         <div className="grid grid-cols-2 gap-3 mb-6">
-          <QuickExpenseTracker />
-          <ShiftNotesAccess />
+          
         </div>
         
         <div className="mb-6">

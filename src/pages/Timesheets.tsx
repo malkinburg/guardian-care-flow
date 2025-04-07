@@ -1,12 +1,13 @@
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ChevronRight, Plus, Clock, FileText } from "lucide-react";
+import { ChevronRight, Plus, Clock, FileText, Download } from "lucide-react";
 import MainLayout from "@/components/layout/MainLayout";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
+import InvoiceGenerator from "@/components/invoices/InvoiceGenerator";
 
 // Sample data for timesheet entries
 const CURRENT_WEEK_ENTRIES = [
@@ -50,10 +51,27 @@ const RECENT_ACTIVITY = [
 const Timesheets = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("timesheet");
+  const [selectedEntries, setSelectedEntries] = useState<string[]>([]);
 
   const handleTabChange = (value: string) => {
     setActiveTab(value);
   };
+
+  const handleToggleSelectEntry = (entryId: string) => {
+    setSelectedEntries(prev => 
+      prev.includes(entryId) 
+        ? prev.filter(id => id !== entryId)
+        : [...prev, entryId]
+    );
+  };
+
+  const handleViewInvoices = () => {
+    navigate('/invoices');
+  };
+
+  const filteredEntries = CURRENT_WEEK_ENTRIES.filter(entry => 
+    selectedEntries.length === 0 || selectedEntries.includes(entry.id)
+  );
 
   return (
     <MainLayout title="Timesheet & Billing">
@@ -87,21 +105,29 @@ const Timesheets = () => {
           <TabsContent value="timesheet" className="mt-0">
             <div className="space-y-6">
               <div>
-                <h2 className="text-lg font-bold flex items-center justify-between mb-3">
-                  Current Week
+                <div className="flex justify-between items-center mb-3">
+                  <h2 className="text-lg font-bold">Current Week</h2>
                   <span className="text-sm font-normal text-gray-500">March 24-30, 2025</span>
-                </h2>
+                </div>
                 
                 {CURRENT_WEEK_ENTRIES.map((entry) => (
                   <Card key={entry.id} className="bg-white shadow-sm rounded-xl mb-3">
                     <div className="p-4">
                       <div className="flex justify-between items-start mb-1">
-                        <h3 className="font-medium text-gray-800">{entry.title}</h3>
+                        <div className="flex items-center">
+                          <input 
+                            type="checkbox"
+                            className="mr-2 h-4 w-4 text-sky-600 rounded border-gray-300 focus:ring-sky-500"
+                            checked={selectedEntries.includes(entry.id)}
+                            onChange={() => handleToggleSelectEntry(entry.id)}
+                          />
+                          <h3 className="font-medium text-gray-800">{entry.title}</h3>
+                        </div>
                         <span className="text-green-600 text-sm font-medium">Completed</span>
                       </div>
-                      <p className="text-sm text-gray-500 mb-3">with {entry.clientName}</p>
+                      <p className="text-sm text-gray-500 mb-3 ml-6">with {entry.clientName}</p>
                       
-                      <div className="flex justify-between text-sm mb-2">
+                      <div className="flex justify-between text-sm mb-2 ml-6">
                         <div>
                           <p className="text-gray-500">Start Time</p>
                           <p className="font-medium">{entry.startTime}</p>
@@ -116,7 +142,7 @@ const Timesheets = () => {
                         </div>
                       </div>
                       
-                      <div className="mt-3">
+                      <div className="mt-3 ml-6">
                         <p className="text-sm text-gray-500">Activities:</p>
                         <p className="text-sm">{entry.activities}</p>
                       </div>
@@ -124,12 +150,16 @@ const Timesheets = () => {
                   </Card>
                 ))}
                 
-                <Button 
-                  className="w-full mt-2 bg-white border border-sky-500 text-sky-600 hover:bg-sky-50" 
-                  variant="outline"
-                >
-                  <Plus className="h-4 w-4 mr-1" /> Add Time Entry
-                </Button>
+                <div className="flex space-x-2">
+                  <Button 
+                    className="flex-1 bg-white border border-sky-500 text-sky-600 hover:bg-sky-50" 
+                    variant="outline"
+                  >
+                    <Plus className="h-4 w-4 mr-1" /> Add Time Entry
+                  </Button>
+                  
+                  <InvoiceGenerator timesheetEntries={filteredEntries.length > 0 ? filteredEntries : CURRENT_WEEK_ENTRIES} />
+                </div>
               </div>
               
               <div>
@@ -170,10 +200,53 @@ const Timesheets = () => {
           </TabsContent>
           
           <TabsContent value="billing" className="mt-0">
-            <div className="flex flex-col items-center justify-center h-48 text-center">
-              <FileText className="h-12 w-12 text-gray-300 mb-4" />
-              <h3 className="text-lg font-medium text-gray-700">Billing Information</h3>
-              <p className="text-sm text-gray-500 mt-2">Your billing information will appear here</p>
+            <div className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <Card className="p-4">
+                  <div className="flex flex-col items-center text-center">
+                    <div className="bg-sky-100 p-3 rounded-full mb-3">
+                      <FileText className="h-6 w-6 text-sky-600" />
+                    </div>
+                    <h3 className="font-medium mb-2">Generate Invoices</h3>
+                    <p className="text-sm text-gray-500 mb-4">Create invoices from your approved timesheets</p>
+                    <InvoiceGenerator timesheetEntries={CURRENT_WEEK_ENTRIES} />
+                  </div>
+                </Card>
+                
+                <Card className="p-4">
+                  <div className="flex flex-col items-center text-center">
+                    <div className="bg-amber-100 p-3 rounded-full mb-3">
+                      <Download className="h-6 w-6 text-amber-600" />
+                    </div>
+                    <h3 className="font-medium mb-2">Invoice History</h3>
+                    <p className="text-sm text-gray-500 mb-4">View and manage all your previous invoices</p>
+                    <Button 
+                      onClick={handleViewInvoices}
+                      className="bg-amber-500 hover:bg-amber-600 text-white"
+                    >
+                      View All Invoices
+                    </Button>
+                  </div>
+                </Card>
+              </div>
+              
+              <Card className="p-4">
+                <h3 className="font-medium mb-4">Billing Summary</h3>
+                <div className="space-y-2">
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">This Month</span>
+                    <span className="font-medium">$690.00</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Last Month</span>
+                    <span className="font-medium">$1,240.00</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Year to Date</span>
+                    <span className="font-medium">$5,820.00</span>
+                  </div>
+                </div>
+              </Card>
             </div>
           </TabsContent>
         </Tabs>

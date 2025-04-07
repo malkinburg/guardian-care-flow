@@ -13,6 +13,7 @@ import Clients from "./pages/Clients";
 import Messages from "./pages/Messages";
 import Profile from "./pages/Profile";
 import Timesheets from "./pages/Timesheets";
+import Invoices from "./pages/Invoices";
 import Participants from "./pages/Participants";
 import NotFound from "./pages/NotFound";
 
@@ -58,6 +59,10 @@ const App = () => {
               <Route 
                 path="/timesheets" 
                 element={isAuthenticated ? <Timesheets /> : <Navigate to="/login" />} 
+              />
+              <Route 
+                path="/invoices" 
+                element={isAuthenticated ? <Invoices /> : <Navigate to="/login" />} 
               />
               <Route 
                 path="/profile" 

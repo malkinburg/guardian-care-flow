@@ -21,13 +21,13 @@ const QuickActionCard = ({
   return (
     <Card 
       className={cn(
-        "cursor-pointer hover:shadow-md transition-shadow", 
+        "cursor-pointer hover:shadow-md transition-all duration-300 transform hover:-translate-y-1 hover:border-sky-200", 
         className
       )}
       onClick={onClick}
     >
       <CardContent className="flex items-center p-4">
-        <div className="flex-shrink-0 mr-4">
+        <div className="flex-shrink-0 mr-4 text-sky-500">
           {icon}
         </div>
         <div>

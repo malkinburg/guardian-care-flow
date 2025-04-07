@@ -10,7 +10,6 @@ import { ShiftProps } from "@/components/dashboard/ShiftCard";
 import { AvailabilitySelector } from "@/components/shifts/AvailabilitySelector";
 import { MOCK_SHIFTS } from "@/data/mockShifts";
 import CertificateComplianceCard from "@/components/certificates/CertificateComplianceCard";
-import QuickActions from "@/components/dashboard/QuickActions"; // Ensure this is imported
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -70,10 +69,10 @@ const Dashboard = () => {
             </div>
           </div>
           <div className="flex space-x-2">
-            <button className="rounded-full p-2 bg-white/20">
+            <button className="rounded-full p-2 bg-white/20 hover:bg-white/30 transition-colors">
               <Clock className="h-5 w-5" />
             </button>
-            <button className="rounded-full p-2 bg-white/20">
+            <button className="rounded-full p-2 bg-white/20 hover:bg-white/30 transition-colors">
               <MessageSquare className="h-5 w-5" />
             </button>
           </div>
@@ -88,7 +87,7 @@ const Dashboard = () => {
           </div>
 
           {todayShift ? (
-            <Card className="bg-white shadow-md rounded-xl overflow-hidden">
+            <Card className="bg-white shadow-md rounded-xl overflow-hidden hover:shadow-lg transition-shadow transform hover:-translate-y-1 duration-300">
               <div className="p-4">
                 <div className="flex items-center mb-2">
                   <Badge className="bg-green-100 text-green-600 font-medium rounded-full px-3">Accepted</Badge>
@@ -106,15 +105,10 @@ const Dashboard = () => {
               </div>
             </Card>
           ) : (
-            <Card className="bg-white shadow-md rounded-xl p-4 text-center">
+            <Card className="bg-white shadow-md rounded-xl p-4 text-center hover:shadow-lg transition-shadow transform hover:-translate-y-1 duration-300">
               <p className="text-gray-500">No shifts scheduled for today</p>
             </Card>
           )}
-        </div>
-
-        {/* Add QuickActions component here */}
-        <div className="mb-6">
-          <QuickActions />
         </div>
 
         <div className="grid grid-cols-2 gap-3 mb-6">
@@ -153,7 +147,7 @@ const Dashboard = () => {
           </div>
           
           {MOCK_SHIFTS.upcoming.length > 1 ? (
-            <Card className="bg-white shadow-md rounded-xl p-4">
+            <Card className="bg-white shadow-md rounded-xl p-4 hover:shadow-lg transition-shadow transform hover:-translate-y-1 duration-300">
               <div className="text-lg font-semibold">
                 {MOCK_SHIFTS.upcoming[1].startTime} - {MOCK_SHIFTS.upcoming[1].endTime}
               </div>
@@ -162,7 +156,7 @@ const Dashboard = () => {
               <div className="text-sm text-gray-500">{MOCK_SHIFTS.upcoming[1].location}</div>
             </Card>
           ) : (
-            <Card className="bg-white shadow-md rounded-xl p-6 flex flex-col items-center justify-center">
+            <Card className="bg-white shadow-md rounded-xl p-6 flex flex-col items-center justify-center hover:shadow-lg transition-shadow transform hover:-translate-y-1 duration-300">
               <div className="bg-sky-500 text-white rounded-full p-4 mb-3">
                 <Calendar className="h-6 w-6" />
               </div>

@@ -16,6 +16,7 @@ export interface ShiftProps {
   onViewDetails?: (id: string) => void;
   jobTitle?: string;
   payAmount?: number;
+  notes?: string; // Added the notes property
 }
 
 const ShiftCard = ({ 

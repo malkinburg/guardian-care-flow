@@ -12,53 +12,14 @@ import { ShiftProps } from "@/components/dashboard/ShiftCard";
 import { AvailabilitySelector } from "@/components/shifts/AvailabilitySelector";
 import ShiftNotesAccess from "@/components/dashboard/ShiftNotesAccess";
 import { MOCK_PARTICIPANTS } from "@/data/mockParticipants";
-
-// Sample data for demonstration
-const MOCK_SHIFTS: ShiftProps[] = [
-  {
-    id: "shift1",
-    clientName: "John Smith",
-    location: "123 Main St, Anytown",
-    date: "2023-09-15",
-    startTime: "9:00",
-    endTime: "13:00",
-    status: "scheduled",
-  },
-  {
-    id: "shift2",
-    clientName: "Sarah Johnson",
-    location: "456 Oak Ave, Somecity",
-    date: "2023-09-16",
-    startTime: "14:00",
-    endTime: "18:00",
-    status: "scheduled",
-  },
-];
-
-const MOCK_NOTIFICATIONS = [
-  {
-    id: "notif1",
-    icon: <Calendar className="h-4 w-4 text-blue-500" />,
-    title: "New shift available",
-    description: "A new shift is available for Jane Doe on September 18",
-    time: "10 minutes ago",
-    isRead: false,
-  },
-  {
-    id: "notif2",
-    icon: <MessageSquare className="h-4 w-4 text-green-500" />,
-    title: "New message",
-    description: "You have a new message from Dr. Williams",
-    time: "1 hour ago",
-    isRead: true,
-  },
-];
+import { MOCK_SHIFTS } from "@/data/mockShifts";
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showAvailability, setShowAvailability] = useState(false);
+  const [availableShifts, setAvailableShifts] = useState<ShiftProps[]>([]);
 
   useEffect(() => {
     // Check if user is logged in
@@ -70,6 +31,9 @@ const Dashboard = () => {
     
     setUser(JSON.parse(userData));
     setIsLoading(false);
+
+    // Get available shifts from the MOCK_SHIFTS data
+    setAvailableShifts(MOCK_SHIFTS.available);
   }, [navigate]);
 
   const handleQuickAction = (action: string) => {
@@ -95,11 +59,20 @@ const Dashboard = () => {
     setShowAvailability(prev => !prev);
   };
 
+  const handleViewAllAvailable = () => {
+    navigate("/shifts/available");
+  };
+
+  const handleAcceptShift = (shiftId: string) => {
+    // In a real app, this would call an API to accept the shift
+    navigate(`/shifts/${shiftId}`);
+  };
+
   if (isLoading) {
     return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
   }
 
-  const todayShift = MOCK_SHIFTS[0];
+  const todayShift = MOCK_SHIFTS.upcoming[0];
   
   return (
     <MainLayout>
@@ -174,6 +147,62 @@ const Dashboard = () => {
           />
         </div>
         
+        {/* Open Shifts Section (Broadcast Shifts) */}
+        <div className="mb-6">
+          <div className="flex justify-between items-center mb-3">
+            <h2 className="text-lg font-bold">Open Shifts</h2>
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="text-sky-500 font-medium p-0" 
+              onClick={handleViewAllAvailable}
+            >
+              View all <ChevronRight className="h-4 w-4 ml-1" />
+            </Button>
+          </div>
+
+          {availableShifts.length > 0 ? (
+            <div className="space-y-3">
+              {availableShifts.slice(0, 2).map((shift) => (
+                <Card key={shift.id} className="bg-white shadow-sm rounded-xl overflow-hidden">
+                  <div className="p-4">
+                    <div className="flex justify-between items-start mb-2">
+                      <div>
+                        <h3 className="font-medium">{shift.jobTitle}</h3>
+                        <p className="text-sm text-gray-600">with {shift.clientName}</p>
+                      </div>
+                      <Badge className="bg-purple-100 text-purple-700">Available</Badge>
+                    </div>
+
+                    <div className="space-y-1 text-sm text-gray-600 mb-3">
+                      <div className="flex items-center">
+                        <Calendar className="h-3.5 w-3.5 mr-1.5 text-sky-500" />
+                        {formatDate(shift.date)}
+                      </div>
+                      <div className="flex items-center">
+                        <Clock className="h-3.5 w-3.5 mr-1.5 text-sky-500" />
+                        {shift.startTime} - {shift.endTime}
+                      </div>
+                    </div>
+
+                    <Button
+                      size="sm" 
+                      className="w-full bg-purple-500 hover:bg-purple-600"
+                      onClick={() => handleAcceptShift(shift.id)}
+                    >
+                      Accept Shift
+                    </Button>
+                  </div>
+                </Card>
+              ))}
+            </div>
+          ) : (
+            <Card className="bg-white shadow-md rounded-xl p-4 text-center">
+              <p className="text-gray-500">No open shifts available</p>
+            </Card>
+          )}
+        </div>
+        
         <div className="mb-6">
           {/* Recent Shift Notes section */}
           <ShiftNotesAccess limit={3} />
@@ -187,14 +216,14 @@ const Dashboard = () => {
             </Button>
           </div>
           
-          {MOCK_SHIFTS.length > 1 ? (
+          {MOCK_SHIFTS.upcoming.length > 1 ? (
             <Card className="bg-white shadow-md rounded-xl p-4">
               <div className="text-lg font-semibold">
-                {MOCK_SHIFTS[1].startTime} - {MOCK_SHIFTS[1].endTime}
+                {MOCK_SHIFTS.upcoming[1].startTime} - {MOCK_SHIFTS.upcoming[1].endTime}
               </div>
-              <div className="text-sm text-gray-500">{formatDate(MOCK_SHIFTS[1].date)}</div>
-              <div className="mt-2 text-gray-700">{MOCK_SHIFTS[1].clientName}</div>
-              <div className="text-sm text-gray-500">{MOCK_SHIFTS[1].location}</div>
+              <div className="text-sm text-gray-500">{formatDate(MOCK_SHIFTS.upcoming[1].date)}</div>
+              <div className="mt-2 text-gray-700">{MOCK_SHIFTS.upcoming[1].clientName}</div>
+              <div className="text-sm text-gray-500">{MOCK_SHIFTS.upcoming[1].location}</div>
             </Card>
           ) : (
             <Card className="bg-white shadow-md rounded-xl p-6 flex flex-col items-center justify-center">

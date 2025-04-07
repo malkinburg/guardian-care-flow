@@ -4,7 +4,7 @@ import { ShiftProps } from "@/components/dashboard/ShiftCard";
 import { Card, CardContent } from "@/components/ui/card";
 import { Calendar } from "@/components/ui/calendar";
 import { Badge } from "@/components/ui/badge";
-import { format, isSameDay } from "date-fns";
+import { format, isSameDay, parseISO } from "date-fns";
 import { Button } from "@/components/ui/button";
 
 interface CalendarViewProps {
@@ -26,6 +26,20 @@ const CalendarView = ({ shifts, selectedDate, onDateSelect }: CalendarViewProps)
   const shiftsForSelectedDate = shifts.filter(shift => 
     isSameDay(new Date(shift.date), selectedDate)
   );
+
+  // Helper function to safely format time
+  const safeFormatTime = (timeString: string): string => {
+    try {
+      // Create a valid date object using the current day but with the specified time
+      const [hours, minutes] = timeString.split(':').map(Number);
+      const date = new Date();
+      date.setHours(hours, minutes, 0, 0);
+      return format(date, "h:mm a");
+    } catch (error) {
+      console.error("Error formatting time:", error, timeString);
+      return timeString; // Return the original string if formatting fails
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -78,8 +92,7 @@ const CalendarView = ({ shifts, selectedDate, onDateSelect }: CalendarViewProps)
                   </div>
                   <div className="mt-2 text-sm flex justify-between">
                     <span className="text-sky-700">
-                      {format(new Date(`2025-01-01T${shift.startTime}`), "h:mm a")} - 
-                      {format(new Date(`2025-01-01T${shift.endTime}`), "h:mm a")}
+                      {safeFormatTime(shift.startTime)} - {safeFormatTime(shift.endTime)}
                     </span>
                     <Button variant="link" className="h-auto p-0 text-sky-600">View Details</Button>
                   </div>

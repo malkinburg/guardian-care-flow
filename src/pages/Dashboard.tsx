@@ -1,7 +1,6 @@
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Calendar, Clock, MessageSquare, FileText, ChevronRight, Users } from "lucide-react";
+import { Calendar, Clock, MessageSquare, FileText, ChevronRight, Users, AlertTriangle } from "lucide-react";
 import MainLayout from "@/components/layout/MainLayout";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -11,6 +10,7 @@ import { ShiftProps } from "@/components/dashboard/ShiftCard";
 import { AvailabilitySelector } from "@/components/shifts/AvailabilitySelector";
 import { MOCK_SHIFTS } from "@/data/mockShifts";
 import CertificateComplianceCard from "@/components/certificates/CertificateComplianceCard";
+import QuickActions from "@/components/dashboard/QuickActions"; // Ensure this is imported
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -112,6 +112,11 @@ const Dashboard = () => {
           )}
         </div>
 
+        {/* Add QuickActions component here */}
+        <div className="mb-6">
+          <QuickActions />
+        </div>
+
         <div className="grid grid-cols-2 gap-3 mb-6">
           <CertificateComplianceCard />
           <QuickActionButton 
@@ -131,6 +136,11 @@ const Dashboard = () => {
             icon={<FileText className="h-5 w-5" />}
             label="Timesheets"
             onClick={() => navigate("/timesheets")}
+          />
+          <QuickActionButton 
+            icon={<AlertTriangle className="h-5 w-5" />}
+            label="Incidents"
+            onClick={() => navigate("/incidents")}
           />
         </div>
         

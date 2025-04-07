@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ChevronRight, Plus, Clock, FileText, Download } from "lucide-react";
@@ -8,8 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 import InvoiceGenerator from "@/components/invoices/InvoiceGenerator";
+import ExpenseTracker from "@/components/expenses/ExpenseTracker";
 
-// Sample data for timesheet entries
 const CURRENT_WEEK_ENTRIES = [
   {
     id: "entry1",
@@ -77,7 +76,7 @@ const Timesheets = () => {
     <MainLayout title="Timesheet & Billing">
       <div className="p-4">
         <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
-          <TabsList className="grid w-full grid-cols-2 mb-4">
+          <TabsList className="grid w-full grid-cols-3 mb-4">
             <TabsTrigger 
               value="timesheet" 
               className={cn(
@@ -99,6 +98,17 @@ const Timesheets = () => {
               )}
             >
               Billing
+            </TabsTrigger>
+            <TabsTrigger 
+              value="expenses"
+              className={cn(
+                "text-base py-3 border-b-2", 
+                activeTab === "expenses" 
+                  ? "border-sky-500 text-sky-600" 
+                  : "border-transparent text-gray-500"
+              )}
+            >
+              Expenses
             </TabsTrigger>
           </TabsList>
           
@@ -248,6 +258,10 @@ const Timesheets = () => {
                 </div>
               </Card>
             </div>
+          </TabsContent>
+          
+          <TabsContent value="expenses" className="mt-0">
+            <ExpenseTracker />
           </TabsContent>
         </Tabs>
       </div>

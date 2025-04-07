@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Calendar, Clock, MessageSquare, FileText, ChevronRight, Users } from "lucide-react";
@@ -12,6 +11,7 @@ import { AvailabilitySelector } from "@/components/shifts/AvailabilitySelector";
 import ShiftNotesAccess from "@/components/dashboard/ShiftNotesAccess";
 import { MOCK_PARTICIPANTS } from "@/data/mockParticipants";
 import { MOCK_SHIFTS } from "@/data/mockShifts";
+import QuickReceiptUpload from "@/components/dashboard/QuickReceiptUpload";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -21,7 +21,6 @@ const Dashboard = () => {
   const [availableShifts, setAvailableShifts] = useState<ShiftProps[]>([]);
 
   useEffect(() => {
-    // Check if user is logged in
     const userData = localStorage.getItem("user");
     if (!userData) {
       navigate("/login");
@@ -31,7 +30,6 @@ const Dashboard = () => {
     setUser(JSON.parse(userData));
     setIsLoading(false);
 
-    // Get available shifts from the MOCK_SHIFTS data
     setAvailableShifts(MOCK_SHIFTS.available);
   }, [navigate]);
 
@@ -63,7 +61,6 @@ const Dashboard = () => {
   };
 
   const handleAcceptShift = (shiftId: string) => {
-    // In a real app, this would call an API to accept the shift
     navigate(`/shifts/${shiftId}`);
   };
 
@@ -127,7 +124,7 @@ const Dashboard = () => {
           )}
         </div>
 
-        <div className="grid grid-cols-3 gap-3 mb-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
           <QuickActionButton 
             icon={<Calendar className="h-5 w-5" />}
             label="Open Shifts"
@@ -146,7 +143,14 @@ const Dashboard = () => {
           />
         </div>
         
-        {/* Open Shifts Section (Broadcast Shifts) */}
+        <div className="mb-6">
+          <QuickReceiptUpload />
+        </div>
+        
+        <div className="mb-6">
+          <ShiftNotesAccess limit={3} />
+        </div>
+        
         <div className="mb-6">
           <div className="flex justify-between items-center mb-3">
             <h2 className="text-lg font-bold">Open Shifts</h2>
@@ -203,11 +207,6 @@ const Dashboard = () => {
         </div>
         
         <div className="mb-6">
-          {/* Recent Shift Notes section */}
-          <ShiftNotesAccess limit={3} />
-        </div>
-
-        <div className="mb-6">
           <div className="flex justify-between items-center mb-2">
             <h2 className="text-lg font-bold">Upcoming Shift</h2>
             <Button variant="ghost" size="sm" className="text-sky-500 font-medium p-0" onClick={() => navigate("/shifts")}>
@@ -248,7 +247,6 @@ const Dashboard = () => {
   );
 };
 
-// Helper component for the action buttons
 const QuickActionButton = ({ 
   icon, 
   label, 
@@ -277,7 +275,6 @@ const QuickActionButton = ({
   </button>
 );
 
-// Helper function to calculate hour difference
 const calculateHourDifference = (start: string, end: string): string => {
   const [startHour, startMinute] = start.split(':').map(Number);
   const [endHour, endMinute] = end.split(':').map(Number);
@@ -285,13 +282,11 @@ const calculateHourDifference = (start: string, end: string): string => {
   const totalStartMinutes = startHour * 60 + startMinute;
   const totalEndMinutes = endHour * 60 + endMinute;
   
-  // Calculate difference in minutes
   let diffMinutes = totalEndMinutes - totalStartMinutes;
   if (diffMinutes < 0) {
-    diffMinutes += 24 * 60; // Add a day if end is on the next day
+    diffMinutes += 24 * 60;
   }
   
-  // Convert to hours and minutes
   const hours = Math.floor(diffMinutes / 60);
   const minutes = diffMinutes % 60;
   

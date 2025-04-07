@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Calendar, Clock, MessageSquare, FileText, ChevronRight, Users, AlertTriangle } from "lucide-react";
@@ -59,7 +60,7 @@ const Dashboard = () => {
   
   return (
     <MainLayout>
-      <div className="px-4 py-6 bg-sky-500 text-white rounded-b-3xl mb-4">
+      <div className="px-4 py-6 bg-gradient-to-r from-sky-500 to-sky-400 text-white rounded-b-3xl mb-4">
         <div className="flex justify-between items-center mb-2">
           <div>
             <h1 className="text-xl font-semibold">Hello, {user?.name || "Caregiver"}</h1>
@@ -87,7 +88,7 @@ const Dashboard = () => {
           </div>
 
           {todayShift ? (
-            <Card className="bg-white shadow-md rounded-xl overflow-hidden hover:shadow-lg transition-shadow transform hover:-translate-y-1 duration-300">
+            <Card className="bg-gradient-to-b from-white to-sky-50/50 shadow-md rounded-xl overflow-hidden hover:shadow-lg transition-shadow transform hover:-translate-y-1 duration-300 border border-sky-100/80">
               <div className="p-4">
                 <div className="flex items-center mb-2">
                   <Badge className="bg-green-100 text-green-600 font-medium rounded-full px-3">Accepted</Badge>
@@ -105,7 +106,7 @@ const Dashboard = () => {
               </div>
             </Card>
           ) : (
-            <Card className="bg-white shadow-md rounded-xl p-4 text-center hover:shadow-lg transition-shadow transform hover:-translate-y-1 duration-300">
+            <Card className="bg-gradient-to-b from-white to-sky-50/50 shadow-md rounded-xl p-4 text-center hover:shadow-lg transition-shadow transform hover:-translate-y-1 duration-300 border border-sky-100/80">
               <p className="text-gray-500">No shifts scheduled for today</p>
             </Card>
           )}
@@ -147,7 +148,7 @@ const Dashboard = () => {
           </div>
           
           {MOCK_SHIFTS.upcoming.length > 1 ? (
-            <Card className="bg-white shadow-md rounded-xl p-4 hover:shadow-lg transition-shadow transform hover:-translate-y-1 duration-300">
+            <Card className="bg-gradient-to-b from-white to-sky-50/50 shadow-md rounded-xl p-4 hover:shadow-lg transition-shadow transform hover:-translate-y-1 duration-300 border border-sky-100/80">
               <div className="text-lg font-semibold">
                 {MOCK_SHIFTS.upcoming[1].startTime} - {MOCK_SHIFTS.upcoming[1].endTime}
               </div>
@@ -156,7 +157,7 @@ const Dashboard = () => {
               <div className="text-sm text-gray-500">{MOCK_SHIFTS.upcoming[1].location}</div>
             </Card>
           ) : (
-            <Card className="bg-white shadow-md rounded-xl p-6 flex flex-col items-center justify-center hover:shadow-lg transition-shadow transform hover:-translate-y-1 duration-300">
+            <Card className="bg-gradient-to-b from-white to-blue-50/30 shadow-md rounded-xl p-6 flex flex-col items-center justify-center hover:shadow-lg transition-shadow transform hover:-translate-y-1 duration-300 border border-sky-100/80">
               <div className="bg-sky-500 text-white rounded-full p-4 mb-3">
                 <Calendar className="h-6 w-6" />
               </div>
@@ -191,10 +192,10 @@ const QuickActionButton = ({
   notificationCount?: number;
 }) => (
   <button 
-    className="flex flex-col items-center justify-center bg-white rounded-xl shadow-sm p-4 relative"
+    className="flex flex-col items-center justify-center bg-gradient-to-br from-white to-sky-50 rounded-xl shadow-sm p-4 relative hover:shadow-md transition-all duration-300 transform hover:-translate-y-1 border border-sky-100/50"
     onClick={onClick}
   >
-    <div className="mb-1">
+    <div className="mb-1 text-sky-500">
       {icon}
     </div>
     <span className="text-xs font-medium">{label}</span>

@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { ChevronRight, Plus, Clock, FileText, Download } from "lucide-react";
+import { ChevronRight, Plus, Clock, FileText, Download, Receipt } from "lucide-react";
 import MainLayout from "@/components/layout/MainLayout";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";

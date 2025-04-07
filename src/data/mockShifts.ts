@@ -83,6 +83,7 @@ export const MOCK_SHIFTS: { [key: string]: ShiftProps[] } = {
       status: "completed",
       jobTitle: "Personal Care Aide",
       payAmount: 85.00,
+      notes: "Client was in good spirits. Completed all morning routines and medication. Blood pressure normal at 120/80."
     },
     {
       id: "shift8",
@@ -94,6 +95,7 @@ export const MOCK_SHIFTS: { [key: string]: ShiftProps[] } = {
       status: "completed",
       jobTitle: "Home Health Assistant",
       payAmount: 92.00,
+      notes: "Assisted with physical therapy exercises. Client reported some improvement in mobility. Prepared dinner and organized medication for tomorrow."
     },
     {
       id: "shift9",
@@ -105,6 +107,7 @@ export const MOCK_SHIFTS: { [key: string]: ShiftProps[] } = {
       status: "completed",
       jobTitle: "Elderly Care Assistant",
       payAmount: 89.75,
+      notes: "Client was feeling tired today. Helped with light housekeeping and meal preparation. Family visited during shift and were updated on client's condition."
     },
   ],
 };

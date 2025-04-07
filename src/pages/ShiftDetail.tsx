@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import MainLayout from "@/components/layout/MainLayout";
@@ -34,19 +33,19 @@ const ShiftDetail = () => {
       
       if (foundShift) {
         setShift(foundShift);
-        setShiftStatus(foundShift.status);
+        setShiftStatus(foundShift.status as "scheduled" | "in_progress" | "completed" | "cancelled");
         
         // Get shift history for this client
         const clientHistory = CLIENT_SHIFT_HISTORY[foundShift.clientName as keyof typeof CLIENT_SHIFT_HISTORY] || [];
         setShiftHistory(clientHistory);
         
         // If this is a completed shift, we might have some notes already
-        if (foundShift.status === "completed") {
-          setNotes("Client was in good spirits today. Completed all scheduled activities and took medication as prescribed. Blood pressure was normal at 120/80.");
+        if (foundShift.status === "completed" && foundShift.notes) {
+          setNotes(foundShift.notes as string);
         }
       }
       setLoading(false);
-    }, 300);
+    }, 500);
   }, [id]);
 
   const handleBackClick = () => {
@@ -133,8 +132,7 @@ const ShiftDetail = () => {
                 <Badge className={
                   shiftStatus === "completed" ? "bg-green-100 text-green-700" : 
                   shiftStatus === "in_progress" ? "bg-amber-100 text-amber-700" : 
-                  shiftStatus === "scheduled" ? "bg-blue-100 text-blue-700" :
-                  "bg-red-100 text-red-700"
+                  "bg-blue-100 text-blue-700"
                 }>
                   {shiftStatus.charAt(0).toUpperCase() + shiftStatus.slice(1).replace('_', ' ')}
                 </Badge>

@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Calendar, Clock, MessageSquare, FileText, ChevronRight } from "lucide-react";
+import { Calendar, Clock, MessageSquare, FileText, ChevronRight, Users } from "lucide-react";
 import MainLayout from "@/components/layout/MainLayout";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -11,6 +11,7 @@ import { formatDate } from "@/lib/date-utils";
 import { ShiftProps } from "@/components/dashboard/ShiftCard";
 import { AvailabilitySelector } from "@/components/shifts/AvailabilitySelector";
 import ShiftNotesAccess from "@/components/dashboard/ShiftNotesAccess";
+import { MOCK_PARTICIPANTS } from "@/data/mockParticipants";
 
 // Sample data for demonstration
 const MOCK_SHIFTS: ShiftProps[] = [
@@ -161,10 +162,10 @@ const Dashboard = () => {
             onClick={() => navigate("/shifts/available")}
           />
           <QuickActionButton 
-            icon={<Clock className="h-5 w-5" />}
-            label="Availability"
-            onClick={toggleAvailabilityModal}
-            notificationCount={2}
+            icon={<Users className="h-5 w-5" />}
+            label="Participants"
+            onClick={() => navigate("/participants")}
+            notificationCount={MOCK_PARTICIPANTS.length}
           />
           <QuickActionButton 
             icon={<FileText className="h-5 w-5" />}

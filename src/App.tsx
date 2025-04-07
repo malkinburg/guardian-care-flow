@@ -13,6 +13,7 @@ import Clients from "./pages/Clients";
 import Messages from "./pages/Messages";
 import Profile from "./pages/Profile";
 import Timesheets from "./pages/Timesheets";
+import Participants from "./pages/Participants";
 import NotFound from "./pages/NotFound";
 
 // Create a client outside of the component to avoid re-initializations
@@ -57,6 +58,10 @@ const App = () => {
               <Route 
                 path="/profile" 
                 element={isAuthenticated ? <Profile /> : <Navigate to="/login" />} 
+              />
+              <Route 
+                path="/participants" 
+                element={isAuthenticated ? <Participants /> : <Navigate to="/login" />} 
               />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />

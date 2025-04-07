@@ -161,8 +161,8 @@ const Dashboard = () => {
           />
           <QuickActionButton 
             icon={<FileText className="h-5 w-5" />}
-            label="Report"
-            onClick={() => navigate("/reports/new")}
+            label="Timesheets"
+            onClick={() => navigate("/timesheets")}
           />
         </div>
 

@@ -11,6 +11,7 @@ import Shifts from "./pages/Shifts";
 import Clients from "./pages/Clients";
 import Messages from "./pages/Messages";
 import Profile from "./pages/Profile";
+import Timesheets from "./pages/Timesheets";
 import NotFound from "./pages/NotFound";
 
 // Create a client outside of the component to avoid re-initializations
@@ -43,6 +44,10 @@ const App = () => {
               <Route 
                 path="/messages" 
                 element={isAuthenticated ? <Messages /> : <Navigate to="/login" />} 
+              />
+              <Route 
+                path="/timesheets" 
+                element={isAuthenticated ? <Timesheets /> : <Navigate to="/login" />} 
               />
               <Route 
                 path="/profile" 

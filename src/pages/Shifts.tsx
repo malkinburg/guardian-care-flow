@@ -10,6 +10,13 @@ import { MOCK_SHIFTS } from "@/data/mockShifts";
 import { format } from "date-fns";
 import { ShiftProps } from "@/components/dashboard/ShiftCard";
 
+// Define the structure for filtered shifts to match ShiftTabsProps requirements
+interface FilteredShifts {
+  upcoming: ShiftProps[];
+  available: ShiftProps[];
+  completed: ShiftProps[];
+}
+
 const Shifts = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -17,11 +24,11 @@ const Shifts = () => {
   
   const [activeTab, setActiveTab] = useState(initialTab);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
-  const [filteredShifts, setFilteredShifts] = useState<{
-    upcoming: ShiftProps[];
-    available: ShiftProps[];
-    completed: ShiftProps[];
-  }>(MOCK_SHIFTS);
+  const [filteredShifts, setFilteredShifts] = useState<FilteredShifts>({
+    upcoming: MOCK_SHIFTS.upcoming,
+    available: MOCK_SHIFTS.available,
+    completed: MOCK_SHIFTS.completed
+  });
   const [viewMode, setViewMode] = useState<"list" | "calendar">("list");
 
   useEffect(() => {
@@ -35,7 +42,7 @@ const Shifts = () => {
     if (selectedDate) {
       const formattedDate = format(selectedDate, "yyyy-MM-dd");
       
-      const filtered = {
+      const filtered: FilteredShifts = {
         upcoming: MOCK_SHIFTS.upcoming.filter(shift => shift.date === formattedDate),
         available: MOCK_SHIFTS.available.filter(shift => shift.date === formattedDate),
         completed: MOCK_SHIFTS.completed.filter(shift => shift.date === formattedDate)
@@ -43,7 +50,11 @@ const Shifts = () => {
       
       setFilteredShifts(filtered);
     } else {
-      setFilteredShifts(MOCK_SHIFTS);
+      setFilteredShifts({
+        upcoming: MOCK_SHIFTS.upcoming,
+        available: MOCK_SHIFTS.available,
+        completed: MOCK_SHIFTS.completed
+      });
     }
   }, [selectedDate]);
 
@@ -60,7 +71,11 @@ const Shifts = () => {
 
   const clearDateFilter = () => {
     setSelectedDate(undefined);
-    setFilteredShifts(MOCK_SHIFTS);
+    setFilteredShifts({
+      upcoming: MOCK_SHIFTS.upcoming,
+      available: MOCK_SHIFTS.available,
+      completed: MOCK_SHIFTS.completed
+    });
   };
 
   const toggleViewMode = () => {

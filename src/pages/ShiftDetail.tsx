@@ -1,11 +1,10 @@
-
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import MainLayout from "@/components/layout/MainLayout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, Calendar, Clock, ArrowLeft, User, DollarSign, AlertCircle } from "lucide-react";
+import { MapPin, Calendar, Clock, ArrowLeft, User, DollarSign, AlertCircle, Users } from "lucide-react";
 import { formatDate, formatTime } from "@/lib/date-utils";
 import { ShiftProps } from "@/components/dashboard/ShiftCard";
 import { MOCK_SHIFTS, CLIENT_SHIFT_HISTORY } from "@/data/mockShifts";
@@ -14,6 +13,8 @@ import ShiftNotes from "@/components/shifts/ShiftNotes";
 import ClientShiftHistory from "@/components/shifts/ClientShiftHistory";
 import ShiftResponseActions from "@/components/shifts/ShiftResponseActions";
 import { useToast } from "@/hooks/use-toast";
+import { MOCK_PARTICIPANTS } from "@/data/mockParticipants";
+import { Participant } from "@/types/participants";
 
 const ShiftDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -25,6 +26,7 @@ const ShiftDetail = () => {
   const [notes, setNotes] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [shiftHistory, setShiftHistory] = useState<any[]>([]);
+  const [linkedParticipants, setLinkedParticipants] = useState<Participant[]>([]);
 
   useEffect(() => {
     // In a real app, this would be an API call
@@ -52,6 +54,19 @@ const ShiftDetail = () => {
         // If this is a completed shift, we might have some notes already
         if (foundShift.status === "completed" && foundShift.notes) {
           setNotes(foundShift.notes);
+        }
+
+        // Find matching participant for this client
+        const matchingParticipant = MOCK_PARTICIPANTS.find(
+          participant => participant.name === foundShift.clientName
+        );
+        
+        // If found, set as the primary linked participant
+        if (matchingParticipant) {
+          setLinkedParticipants([matchingParticipant]);
+        } else {
+          // Otherwise show a sample of participants they might assist
+          setLinkedParticipants(MOCK_PARTICIPANTS.slice(0, 1));
         }
       }
       setLoading(false);
@@ -87,9 +102,9 @@ const ShiftDetail = () => {
         description: `You've successfully signed up for the shift with ${shift.clientName}.`
       });
       
-      // Simulate moving from available to upcoming
+      // Navigate to participants page
       setTimeout(() => {
-        navigate("/shifts", { state: { activeTab: "upcoming" } });
+        navigate("/participants");
       }, 1500);
     }
   };
@@ -105,6 +120,14 @@ const ShiftDetail = () => {
     setTimeout(() => {
       navigate("/shifts", { state: { activeTab: "available" } });
     }, 1500);
+  };
+
+  const handleViewParticipantDetails = (participantId: string) => {
+    // In a real app, this would navigate to the participant detail page
+    toast({
+      title: "Feature coming soon",
+      description: "The participant detail view is coming soon."
+    });
   };
 
   if (loading) {
@@ -201,6 +224,53 @@ const ShiftDetail = () => {
               </div>
             </CardContent>
           </Card>
+
+          {/* Linked Participants Section */}
+          {linkedParticipants.length > 0 && (
+            <Card className="shadow-sm">
+              <CardContent className="p-4">
+                <h3 className="font-medium text-sky-700 flex items-center mb-3">
+                  <Users className="h-4 w-4 mr-2" />
+                  Linked Participants
+                </h3>
+                <div className="space-y-3">
+                  {linkedParticipants.map(participant => (
+                    <div 
+                      key={participant.id}
+                      className="flex items-center justify-between p-3 bg-sky-50 rounded-lg"
+                      onClick={() => handleViewParticipantDetails(participant.id)}
+                    >
+                      <div className="flex items-center">
+                        {participant.image ? (
+                          <img 
+                            src={participant.image} 
+                            alt={participant.name} 
+                            className="w-10 h-10 rounded-full object-cover mr-3"
+                          />
+                        ) : (
+                          <div className="w-10 h-10 rounded-full bg-sky-200 flex items-center justify-center mr-3">
+                            <User className="h-5 w-5 text-sky-700" />
+                          </div>
+                        )}
+                        <div>
+                          <p className="font-medium">{participant.name}</p>
+                          <p className="text-xs text-gray-500">Age: {participant.age}</p>
+                        </div>
+                      </div>
+                      <Button 
+                        variant="ghost" 
+                        size="sm"
+                        onClick={() => navigate('/participants')}
+                        className="text-sky-700"
+                      >
+                        View Profile
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          )}
 
           {/* Accept/Decline Actions for Available Shifts */}
           {shift.status === "available" && (

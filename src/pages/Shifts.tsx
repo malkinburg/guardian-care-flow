@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import MainLayout from "@/components/layout/MainLayout";
@@ -6,9 +5,12 @@ import ShiftTabs from "@/components/shifts/ShiftTabs";
 import ShiftViewControls from "@/components/shifts/ShiftViewControls";
 import DaySelector from "@/components/shifts/DaySelector";
 import CalendarView from "@/components/shifts/CalendarView";
+import { AvailabilitySelector } from "@/components/shifts/AvailabilitySelector";
 import { MOCK_SHIFTS } from "@/data/mockShifts";
 import { format } from "date-fns";
 import { ShiftProps } from "@/components/dashboard/ShiftCard";
+import { Button } from "@/components/ui/button";
+import { Calendar, Clock } from "lucide-react";
 
 // Define the structure for filtered shifts to match ShiftTabsProps requirements
 interface FilteredShifts {
@@ -30,6 +32,7 @@ const Shifts = () => {
     completed: MOCK_SHIFTS.completed
   });
   const [viewMode, setViewMode] = useState<"list" | "calendar">("list");
+  const [availabilityModalOpen, setAvailabilityModalOpen] = useState(false);
 
   useEffect(() => {
     const userData = localStorage.getItem("user");
@@ -59,7 +62,6 @@ const Shifts = () => {
   }, [selectedDate]);
 
   useEffect(() => {
-    // Clear the location state after using it
     if (location.state?.activeTab) {
       window.history.replaceState({}, document.title);
     }
@@ -106,6 +108,16 @@ const Shifts = () => {
         </div>
       )}
 
+      <div className="px-4 mb-4">
+        <Button 
+          onClick={() => setAvailabilityModalOpen(true)}
+          className="w-full bg-sky-500 hover:bg-sky-600 text-white"
+        >
+          <Clock className="mr-2 h-4 w-4" />
+          Set My Availability
+        </Button>
+      </div>
+
       {viewMode === "list" ? (
         <ShiftTabs 
           activeTab={activeTab}
@@ -123,6 +135,11 @@ const Shifts = () => {
           />
         </div>
       )}
+
+      <AvailabilitySelector 
+        isOpen={availabilityModalOpen} 
+        onClose={() => setAvailabilityModalOpen(false)} 
+      />
     </MainLayout>
   );
 };

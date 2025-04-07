@@ -12,10 +12,13 @@ import { MOCK_SHIFTS, CLIENT_SHIFT_HISTORY } from "@/data/mockShifts";
 import ShiftActions from "@/components/shifts/ShiftActions";
 import ShiftNotes from "@/components/shifts/ShiftNotes";
 import ClientShiftHistory from "@/components/shifts/ClientShiftHistory";
+import ShiftResponseActions from "@/components/shifts/ShiftResponseActions";
+import { useToast } from "@/hooks/use-toast";
 
 const ShiftDetail = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { toast } = useToast();
   const [shift, setShift] = useState<ShiftProps | null>(null);
   const [loading, setLoading] = useState(true);
   const [shiftStatus, setShiftStatus] = useState<"scheduled" | "in_progress" | "completed" | "cancelled">("scheduled");
@@ -73,6 +76,35 @@ const ShiftDetail = () => {
     setNotes(newNotes);
     setIsEditing(false);
     // In a real app, this would save to the backend
+  };
+
+  const handleAcceptShift = () => {
+    if (shift) {
+      setShiftStatus("scheduled");
+      // In a real app, this would update the backend
+      toast({
+        title: "Shift accepted",
+        description: `You've successfully signed up for the shift with ${shift.clientName}.`
+      });
+      
+      // Simulate moving from available to upcoming
+      setTimeout(() => {
+        navigate("/shifts", { state: { activeTab: "upcoming" } });
+      }, 1500);
+    }
+  };
+
+  const handleDeclineShift = () => {
+    // In a real app, this would update the backend
+    toast({
+      title: "Shift declined",
+      description: "You've declined this shift opportunity."
+    });
+    
+    // Navigate back to available shifts
+    setTimeout(() => {
+      navigate("/shifts", { state: { activeTab: "available" } });
+    }, 1500);
   };
 
   if (loading) {
@@ -170,13 +202,29 @@ const ShiftDetail = () => {
             </CardContent>
           </Card>
 
+          {/* Accept/Decline Actions for Available Shifts */}
+          {shift.status === "available" && (
+            <Card className="shadow-sm">
+              <CardContent className="p-4">
+                <h3 className="font-medium text-sky-700 mb-3">Respond to Shift Request</h3>
+                <ShiftResponseActions
+                  shiftId={shift.id}
+                  onAccept={handleAcceptShift}
+                  onDecline={handleDeclineShift}
+                />
+              </CardContent>
+            </Card>
+          )}
+
           {/* Shift Actions */}
-          <ShiftActions 
-            shiftId={shift.id}
-            shiftStatus={shiftStatus}
-            onStartShift={handleStartShift}
-            onEndShift={handleEndShift}
-          />
+          {shift.status !== "available" && (
+            <ShiftActions 
+              shiftId={shift.id}
+              shiftStatus={shiftStatus}
+              onStartShift={handleStartShift}
+              onEndShift={handleEndShift}
+            />
+          )}
 
           {/* Current Shift Notes */}
           <ShiftNotes

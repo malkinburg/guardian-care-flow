@@ -12,11 +12,11 @@ export interface ShiftProps {
   date: string;
   startTime: string;
   endTime: string;
-  status: "scheduled" | "completed" | "cancelled";
+  status: "scheduled" | "available" | "completed" | "cancelled";
   onViewDetails?: (id: string) => void;
   jobTitle?: string;
   payAmount?: number;
-  notes?: string; // Added the notes property
+  notes?: string;
 }
 
 const ShiftCard = ({ 
@@ -33,6 +33,7 @@ const ShiftCard = ({
 }: ShiftProps) => {
   const statusColors = {
     scheduled: "bg-blue-100 text-care-blue",
+    available: "bg-purple-100 text-purple-700",
     completed: "bg-green-100 text-green-700",
     cancelled: "bg-red-100 text-red-700",
   };
@@ -48,7 +49,7 @@ const ShiftCard = ({
             </CardDescription>
           </div>
           <Badge className={statusColors[status]}>
-            {status.charAt(0).toUpperCase() + status.slice(1)}
+            {status === "available" ? "Available" : status.charAt(0).toUpperCase() + status.slice(1)}
           </Badge>
         </div>
       </CardHeader>
@@ -76,10 +77,14 @@ const ShiftCard = ({
         <Button 
           variant="outline" 
           size="sm" 
-          className="w-full border-sky-200 text-sky-700 hover:bg-sky-50"
+          className={`w-full ${
+            status === "available" 
+              ? "border-purple-200 text-purple-700 hover:bg-purple-50" 
+              : "border-sky-200 text-sky-700 hover:bg-sky-50"
+          }`}
           onClick={() => onViewDetails?.(id)}
         >
-          View Details
+          {status === "available" ? "View & Respond" : "View Details"}
         </Button>
       </CardContent>
     </Card>

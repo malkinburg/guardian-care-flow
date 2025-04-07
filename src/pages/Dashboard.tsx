@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import { formatDate } from "@/lib/date-utils";
 import { ShiftProps } from "@/components/dashboard/ShiftCard";
 import { AvailabilitySelector } from "@/components/shifts/AvailabilitySelector";
+import ShiftNotesAccess from "@/components/dashboard/ShiftNotesAccess";
 
 // Sample data for demonstration
 const MOCK_SHIFTS: ShiftProps[] = [
@@ -170,6 +171,11 @@ const Dashboard = () => {
             label="Timesheets"
             onClick={() => navigate("/timesheets")}
           />
+        </div>
+        
+        <div className="mb-6">
+          {/* Recent Shift Notes section */}
+          <ShiftNotesAccess limit={3} />
         </div>
 
         <div className="mb-6">

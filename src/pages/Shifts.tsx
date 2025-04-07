@@ -1,6 +1,5 @@
-
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import MainLayout from "@/components/layout/MainLayout";
 import ShiftTabs from "@/components/shifts/ShiftTabs";
 import ShiftViewControls from "@/components/shifts/ShiftViewControls";
@@ -12,7 +11,10 @@ import { ShiftProps } from "@/components/dashboard/ShiftCard";
 
 const Shifts = () => {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState("upcoming");
+  const location = useLocation();
+  const initialTab = location.state?.activeTab || "upcoming";
+  
+  const [activeTab, setActiveTab] = useState(initialTab);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
   const [filteredShifts, setFilteredShifts] = useState<{ [key: string]: ShiftProps[] }>(MOCK_SHIFTS);
   const [viewMode, setViewMode] = useState<"list" | "calendar">("list");
@@ -38,6 +40,13 @@ const Shifts = () => {
       setFilteredShifts(MOCK_SHIFTS);
     }
   }, [selectedDate]);
+
+  useEffect(() => {
+    // Clear the location state after using it
+    if (location.state?.activeTab) {
+      window.history.replaceState({}, document.title);
+    }
+  }, [location.state]);
 
   const handleViewDetails = (id: string) => {
     navigate(`/shifts/${id}`);

@@ -6,6 +6,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Badge } from "@/components/ui/badge";
 import { format, isSameDay, parseISO } from "date-fns";
 import { Button } from "@/components/ui/button";
+import { MapPin, Clock } from "lucide-react";
 
 interface CalendarViewProps {
   shifts: ShiftProps[];
@@ -80,7 +81,10 @@ const CalendarView = ({ shifts, selectedDate, onDateSelect }: CalendarViewProps)
                   <div className="flex justify-between items-start">
                     <div>
                       <p className="font-medium">{shift.clientName}</p>
-                      <p className="text-sm text-gray-500">{shift.location}</p>
+                      <p className="text-sm text-gray-500 flex items-center">
+                        <MapPin className="h-3.5 w-3.5 mr-1 text-sky-500" />
+                        {shift.location}
+                      </p>
                     </div>
                     <Badge className={
                       shift.status === "completed" ? "bg-green-100 text-green-700" : 
@@ -91,7 +95,8 @@ const CalendarView = ({ shifts, selectedDate, onDateSelect }: CalendarViewProps)
                     </Badge>
                   </div>
                   <div className="mt-2 text-sm flex justify-between">
-                    <span className="text-sky-700">
+                    <span className="text-sky-700 flex items-center">
+                      <Clock className="h-3.5 w-3.5 mr-1 text-sky-500" />
                       {safeFormatTime(shift.startTime)} - {safeFormatTime(shift.endTime)}
                     </span>
                     <Button variant="link" className="h-auto p-0 text-sky-600">View Details</Button>

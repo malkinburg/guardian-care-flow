@@ -6,7 +6,6 @@ import MainLayout from "@/components/layout/MainLayout";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { cn } from "@/lib/utils";
 import { formatDate } from "@/lib/date-utils";
 import { ShiftProps } from "@/components/dashboard/ShiftCard";
 import { AvailabilitySelector } from "@/components/shifts/AvailabilitySelector";
@@ -100,7 +99,7 @@ const Dashboard = () => {
         <div className="mb-6">
           <div className="flex justify-between items-center mb-2">
             <h2 className="text-lg font-bold">Today's Shift</h2>
-            <span className="text-sm text-gray-500">{MOCK_SHIFTS.length} shift{MOCK_SHIFTS.length !== 1 ? 's' : ''}</span>
+            <span className="text-sm text-gray-500">{MOCK_SHIFTS.upcoming.length} shift{MOCK_SHIFTS.upcoming.length !== 1 ? 's' : ''}</span>
           </div>
 
           {todayShift ? (

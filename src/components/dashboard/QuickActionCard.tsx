@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 interface QuickActionCardProps {
   icon: ReactNode;
   title: string;
-  description?: string;
+  description?: ReactNode;
   onClick?: () => void;
   className?: string;
 }

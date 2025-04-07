@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { formatDate } from "@/lib/date-utils";
 import { ShiftProps } from "@/components/dashboard/ShiftCard";
+import { AvailabilitySelector } from "@/components/shifts/AvailabilitySelector";
 
 // Sample data for demonstration
 const MOCK_SHIFTS: ShiftProps[] = [
@@ -55,6 +56,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [showAvailability, setShowAvailability] = useState(false);
 
   useEffect(() => {
     // Check if user is logged in
@@ -85,6 +87,10 @@ const Dashboard = () => {
       default:
         break;
     }
+  };
+
+  const toggleAvailabilityModal = () => {
+    setShowAvailability(prev => !prev);
   };
 
   if (isLoading) {
@@ -156,7 +162,7 @@ const Dashboard = () => {
           <QuickActionButton 
             icon={<Clock className="h-5 w-5" />}
             label="Availability"
-            onClick={() => navigate("/availability")}
+            onClick={toggleAvailabilityModal}
             notificationCount={2}
           />
           <QuickActionButton 
@@ -196,6 +202,13 @@ const Dashboard = () => {
           )}
         </div>
       </div>
+
+      {showAvailability && (
+        <AvailabilitySelector 
+          isOpen={showAvailability} 
+          onClose={toggleAvailabilityModal} 
+        />
+      )}
     </MainLayout>
   );
 };

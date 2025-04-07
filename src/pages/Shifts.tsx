@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -14,10 +13,8 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import { Card, CardContent } from "@/components/ui/card";
-import { AvailabilitySelector } from "@/components/shifts/AvailabilitySelector";
 import CalendarView from "@/components/shifts/CalendarView";
 
-// Enhanced sample data for demonstration
 const MOCK_SHIFTS: { [key: string]: ShiftProps[] } = {
   upcoming: [
     {
@@ -114,10 +111,8 @@ const Shifts = () => {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
   const [filteredShifts, setFilteredShifts] = useState<{ [key: string]: ShiftProps[] }>(MOCK_SHIFTS);
   const [viewMode, setViewMode] = useState<"list" | "calendar">("list");
-  const [showAvailability, setShowAvailability] = useState(false);
 
   useEffect(() => {
-    // Check if user is logged in
     const userData = localStorage.getItem("user");
     if (!userData) {
       navigate("/login");
@@ -126,7 +121,6 @@ const Shifts = () => {
 
   useEffect(() => {
     if (selectedDate) {
-      // Filter shifts based on the selected date
       const formattedDate = format(selectedDate, "yyyy-MM-dd");
       
       const filtered = Object.entries(MOCK_SHIFTS).reduce((acc, [key, shifts]) => {
@@ -153,11 +147,6 @@ const Shifts = () => {
     setViewMode(current => current === "list" ? "calendar" : "list");
   };
 
-  const toggleAvailabilityModal = () => {
-    setShowAvailability(prev => !prev);
-  };
-
-  // Generate 7 days for carousel
   const generateWeekDays = () => {
     const days = [];
     for (let i = -3; i <= 3; i++) {
@@ -186,9 +175,9 @@ const Shifts = () => {
             variant="default" 
             size="sm" 
             className="bg-sky-500 text-white hover:bg-sky-600"
-            onClick={toggleAvailabilityModal}
+            onClick={() => navigate("/")}
           >
-            Set Availability
+            Back to Dashboard
           </Button>
         </div>
 
@@ -291,13 +280,6 @@ const Shifts = () => {
             onDateSelect={setSelectedDate}
           />
         </div>
-      )}
-
-      {showAvailability && (
-        <AvailabilitySelector 
-          isOpen={showAvailability} 
-          onClose={toggleAvailabilityModal} 
-        />
       )}
     </MainLayout>
   );

@@ -7,28 +7,10 @@ import { Badge } from "@/components/ui/badge";
 import { MapPin, Calendar, Clock, ArrowLeft, User, DollarSign } from "lucide-react";
 import { formatDate, formatTime } from "@/lib/date-utils";
 import { ShiftProps } from "@/components/dashboard/ShiftCard";
-import { MOCK_SHIFTS } from "@/data/mockShifts";
+import { MOCK_SHIFTS, CLIENT_SHIFT_HISTORY } from "@/data/mockShifts";
 import ShiftActions from "@/components/shifts/ShiftActions";
 import ShiftNotes from "@/components/shifts/ShiftNotes";
 import ClientShiftHistory from "@/components/shifts/ClientShiftHistory";
-
-// Sample shift history data
-const MOCK_SHIFT_HISTORY = [
-  {
-    id: "history1",
-    date: "2025-04-05",
-    startTime: "09:00",
-    endTime: "11:00",
-    notes: "Client was in good spirits. Assisted with medication, breakfast, and a short walk. Mentioned some mild discomfort in right knee."
-  },
-  {
-    id: "history2",
-    date: "2025-04-01",
-    startTime: "14:00",
-    endTime: "17:00",
-    notes: "Helped client with grocery shopping and meal prep. Client reported improved appetite and enjoyed socializing during our outing."
-  }
-];
 
 const ShiftDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -37,6 +19,7 @@ const ShiftDetail = () => {
   const [shiftStatus, setShiftStatus] = useState<"scheduled" | "in_progress" | "completed" | "cancelled">("scheduled");
   const [notes, setNotes] = useState("");
   const [isEditing, setIsEditing] = useState(false);
+  const [shiftHistory, setShiftHistory] = useState<any[]>([]);
 
   useEffect(() => {
     // In a real app, this would be an API call
@@ -45,7 +28,16 @@ const ShiftDetail = () => {
     
     if (foundShift) {
       setShift(foundShift);
-      setShiftStatus(foundShift.status === "scheduled" ? "scheduled" : "completed");
+      setShiftStatus(foundShift.status);
+      
+      // Get shift history for this client
+      const clientHistory = CLIENT_SHIFT_HISTORY[foundShift.clientName as keyof typeof CLIENT_SHIFT_HISTORY] || [];
+      setShiftHistory(clientHistory);
+      
+      // If this is a completed shift, we might have some notes already
+      if (foundShift.status === "completed") {
+        setNotes("Client was in good spirits today. Completed all scheduled activities and took medication as prescribed. Blood pressure was normal at 120/80.");
+      }
     }
   }, [id]);
 
@@ -150,7 +142,7 @@ const ShiftDetail = () => {
             shiftId={shift.id}
             clientId="client1" // In a real app, this would be the client ID
             notes={notes}
-            isEditing={isEditing}
+            isEditing={isEditing || shiftStatus === "in_progress"}
             onSave={handleSaveNotes}
           />
 
@@ -158,7 +150,7 @@ const ShiftDetail = () => {
           <ClientShiftHistory
             clientId="client1" // In a real app, this would be the client ID
             clientName={shift.clientName}
-            shiftHistory={MOCK_SHIFT_HISTORY}
+            shiftHistory={shiftHistory}
           />
         </div>
       </div>

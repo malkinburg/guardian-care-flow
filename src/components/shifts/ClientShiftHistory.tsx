@@ -34,7 +34,7 @@ const ClientShiftHistory = ({
       <CardHeader className="pb-2">
         <CardTitle className="text-lg flex items-center">
           <FileText className="h-5 w-5 mr-2 text-sky-500" />
-          Previous Shift Notes
+          Previous Shift Notes for {clientName}
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -51,14 +51,16 @@ const ClientShiftHistory = ({
                   </div>
                 </AccordionTrigger>
                 <AccordionContent className="px-3 pb-3">
-                  <p className="text-sm whitespace-pre-wrap">{shift.notes}</p>
+                  <div className="border-l-2 border-sky-200 pl-4 py-2 text-sm whitespace-pre-wrap">
+                    {shift.notes}
+                  </div>
                 </AccordionContent>
               </AccordionItem>
             ))}
           </Accordion>
         ) : (
           <div className="text-center py-4 text-gray-500">
-            No previous shift notes for this client
+            No previous shift notes for {clientName}
           </div>
         )}
       </CardContent>

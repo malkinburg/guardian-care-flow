@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Calendar, Clock, MessageSquare, FileText, ChevronRight, Users } from "lucide-react";
@@ -8,18 +9,16 @@ import { Badge } from "@/components/ui/badge";
 import { formatDate } from "@/lib/date-utils";
 import { ShiftProps } from "@/components/dashboard/ShiftCard";
 import { AvailabilitySelector } from "@/components/shifts/AvailabilitySelector";
-import ShiftNotesAccess from "@/components/dashboard/ShiftNotesAccess";
-import { MOCK_PARTICIPANTS } from "@/data/mockParticipants";
 import { MOCK_SHIFTS } from "@/data/mockShifts";
 import QuickReceiptUpload from "@/components/dashboard/QuickReceiptUpload";
 import QuickExpenseTracker from "@/components/dashboard/QuickExpenseTracker";
+import ShiftNotesAccess from "@/components/dashboard/ShiftNotesAccess";
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showAvailability, setShowAvailability] = useState(false);
-  const [availableShifts, setAvailableShifts] = useState<ShiftProps[]>([]);
 
   useEffect(() => {
     const userData = localStorage.getItem("user");
@@ -30,8 +29,6 @@ const Dashboard = () => {
     
     setUser(JSON.parse(userData));
     setIsLoading(false);
-
-    setAvailableShifts(MOCK_SHIFTS.available);
   }, [navigate]);
 
   const handleQuickAction = (action: string) => {
@@ -55,14 +52,6 @@ const Dashboard = () => {
 
   const toggleAvailabilityModal = () => {
     setShowAvailability(prev => !prev);
-  };
-
-  const handleViewAllAvailable = () => {
-    navigate("/shifts/available");
-  };
-
-  const handleAcceptShift = (shiftId: string) => {
-    navigate(`/shifts/${shiftId}`);
   };
 
   if (isLoading) {
@@ -135,7 +124,6 @@ const Dashboard = () => {
             icon={<Users className="h-5 w-5" />}
             label="Participants"
             onClick={() => navigate("/participants")}
-            notificationCount={MOCK_PARTICIPANTS.length}
           />
           <QuickActionButton 
             icon={<FileText className="h-5 w-5" />}
@@ -144,71 +132,9 @@ const Dashboard = () => {
           />
         </div>
         
-        <div className="mb-6">
-          <QuickReceiptUpload />
-        </div>
-        
-        <div className="mb-6">
+        <div className="grid grid-cols-2 gap-3 mb-6">
           <QuickExpenseTracker />
-        </div>
-
-        <div className="mb-6">
-          <ShiftNotesAccess limit={3} />
-        </div>
-        
-        <div className="mb-6">
-          <div className="flex justify-between items-center mb-3">
-            <h2 className="text-lg font-bold">Open Shifts</h2>
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className="text-sky-500 font-medium p-0" 
-              onClick={handleViewAllAvailable}
-            >
-              View all <ChevronRight className="h-4 w-4 ml-1" />
-            </Button>
-          </div>
-
-          {availableShifts.length > 0 ? (
-            <div className="space-y-3">
-              {availableShifts.slice(0, 2).map((shift) => (
-                <Card key={shift.id} className="bg-white shadow-sm rounded-xl overflow-hidden">
-                  <div className="p-4">
-                    <div className="flex justify-between items-start mb-2">
-                      <div>
-                        <h3 className="font-medium">{shift.jobTitle}</h3>
-                        <p className="text-sm text-gray-600">with {shift.clientName}</p>
-                      </div>
-                      <Badge className="bg-purple-100 text-purple-700">Available</Badge>
-                    </div>
-
-                    <div className="space-y-1 text-sm text-gray-600 mb-3">
-                      <div className="flex items-center">
-                        <Calendar className="h-3.5 w-3.5 mr-1.5 text-sky-500" />
-                        {formatDate(shift.date)}
-                      </div>
-                      <div className="flex items-center">
-                        <Clock className="h-3.5 w-3.5 mr-1.5 text-sky-500" />
-                        {shift.startTime} - {shift.endTime}
-                      </div>
-                    </div>
-
-                    <Button
-                      size="sm" 
-                      className="w-full bg-purple-500 hover:bg-purple-600"
-                      onClick={() => handleAcceptShift(shift.id)}
-                    >
-                      Accept Shift
-                    </Button>
-                  </div>
-                </Card>
-              ))}
-            </div>
-          ) : (
-            <Card className="bg-white shadow-md rounded-xl p-4 text-center">
-              <p className="text-gray-500">No open shifts available</p>
-            </Card>
-          )}
+          <ShiftNotesAccess />
         </div>
         
         <div className="mb-6">

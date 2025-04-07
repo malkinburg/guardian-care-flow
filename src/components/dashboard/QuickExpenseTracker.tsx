@@ -1,11 +1,9 @@
 
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { FileText, ChevronRight, Receipt } from "lucide-react";
+import { Receipt } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { formatDate } from "@/lib/date-utils";
+import QuickActionCard from "./QuickActionCard";
 
 // Sample expense data for demo purposes
 const SAMPLE_EXPENSES = [
@@ -48,37 +46,20 @@ const QuickExpenseTracker = ({ limit = 2 }: QuickExpenseTrackerProps) => {
     }, 500);
   }, [limit]);
 
-  const handleViewAllExpenses = () => {
+  const handleViewExpenses = () => {
     navigate("/timesheets", { state: { activeTab: "expenses" } });
   };
 
-  const handleAddNewExpense = () => {
-    navigate("/timesheets", { state: { activeTab: "expenses", action: "add" } });
-  };
-
   return (
-    <Card className="mb-6 cursor-pointer hover:shadow-md transition-shadow" onClick={handleViewAllExpenses}>
-      <CardHeader className="pb-2">
-        <CardTitle className="text-base font-medium flex items-center justify-between">
-          <div className="flex items-center">
-            <Receipt className="h-4 w-4 mr-2 text-sky-500" />
-            Expenses
-          </div>
-          <ChevronRight className="h-4 w-4 text-gray-400" />
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="pt-2">
-        <p className="text-sm text-gray-500">
-          {isLoading ? (
-            <Skeleton className="h-4 w-40" />
-          ) : recentExpenses.length > 0 ? (
-            `${recentExpenses.length} recent expenses`
-          ) : (
-            "No recent expenses"
-          )}
-        </p>
-      </CardContent>
-    </Card>
+    <QuickActionCard
+      icon={<Receipt className="h-5 w-5 text-sky-500" />}
+      title="Expenses"
+      description={isLoading ? 
+        <Skeleton className="h-4 w-20" /> : 
+        `${recentExpenses.length} recent expenses`
+      }
+      onClick={handleViewExpenses}
+    />
   );
 };
 

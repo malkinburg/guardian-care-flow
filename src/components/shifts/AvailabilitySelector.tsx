@@ -33,7 +33,9 @@ export const AvailabilitySelector = ({ isOpen, onClose }: AvailabilitySelectorPr
   const [currentTimeRange, setCurrentTimeRange] = useState<[number, number]>([9, 17]); // Default 9am-5pm
   const [selectedDay, setSelectedDay] = useState<Date | null>(null);
 
-  const handleSelectDate = (date: Date) => {
+  const handleSelectDate = (date: Date | undefined) => {
+    if (!date) return;
+    
     setSelectedDates(prevDates => {
       const isSelected = prevDates.some(d => format(d, 'yyyy-MM-dd') === format(date, 'yyyy-MM-dd'));
       
@@ -149,7 +151,7 @@ export const AvailabilitySelector = ({ isOpen, onClose }: AvailabilitySelectorPr
               <Calendar
                 mode="multiple"
                 selected={selectedDates}
-                onSelect={(date) => date && handleSelectDate(date)}
+                onSelect={handleSelectDate}
                 className="rounded-md pointer-events-auto"
                 disabled={{before: new Date()}}
               />

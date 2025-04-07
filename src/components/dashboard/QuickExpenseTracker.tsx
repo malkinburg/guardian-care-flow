@@ -1,9 +1,10 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { FileText, ChevronRight, Plus } from "lucide-react";
+import { FileText, ChevronRight, Clock } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
 import { formatDate } from "@/lib/date-utils";
 
 // Sample expense data for demo purposes
@@ -30,9 +31,22 @@ const SAMPLE_EXPENSES = [
   }
 ];
 
-const QuickExpenseTracker = () => {
+interface QuickExpenseTrackerProps {
+  limit?: number;
+}
+
+const QuickExpenseTracker = ({ limit = 2 }: QuickExpenseTrackerProps) => {
   const navigate = useNavigate();
-  const [expenses] = useState(SAMPLE_EXPENSES);
+  const [isLoading, setIsLoading] = useState(true);
+  const [recentExpenses, setRecentExpenses] = useState<any[]>([]);
+
+  useEffect(() => {
+    // Simulate loading expenses data
+    setTimeout(() => {
+      setRecentExpenses(SAMPLE_EXPENSES.slice(0, limit));
+      setIsLoading(false);
+    }, 500);
+  }, [limit]);
 
   const handleViewAllExpenses = () => {
     navigate("/timesheets", { state: { activeTab: "expenses" } });
@@ -72,45 +86,48 @@ const QuickExpenseTracker = () => {
         </CardTitle>
       </CardHeader>
       <CardContent className="pt-2">
-        {expenses.length > 0 ? (
+        {isLoading ? (
           <div className="space-y-3">
-            {expenses.slice(0, 2).map((expense) => (
-              <div 
-                key={expense.id} 
-                className="p-3 bg-gray-50 rounded-md border border-gray-100 hover:border-gray-200"
+            {[...Array(limit)].map((_, i) => (
+              <Skeleton key={i} className="h-10 w-full" />
+            ))}
+          </div>
+        ) : recentExpenses.length > 0 ? (
+          <div className="space-y-3">
+            {recentExpenses.map(expense => (
+              <div
+                key={expense.id}
+                className="border-l-2 border-sky-200 pl-3 py-1 cursor-pointer hover:bg-sky-50 rounded-sm"
                 onClick={handleViewAllExpenses}
               >
-                <div className="flex justify-between items-start">
+                <div className="flex justify-between items-center">
                   <div>
                     <p className="font-medium text-sm">{expense.description}</p>
-                    <p className="text-xs text-gray-500">For {expense.participantName}</p>
+                    <div className="flex items-center text-xs text-gray-500">
+                      <Clock className="h-3 w-3 mr-1" />
+                      {formatDate(expense.date)}
+                    </div>
                   </div>
-                  <p className="font-medium">${expense.amount.toFixed(2)}</p>
-                </div>
-                <div className="flex items-center justify-between mt-2">
-                  <p className="text-xs text-gray-500">{formatDate(expense.date)}</p>
-                  <span 
-                    className={`px-2 py-0.5 rounded-full text-xs font-medium capitalize ${getStatusBadgeClass(expense.status)}`}
-                  >
+                  <span className={`px-2 py-0.5 rounded-full text-xs font-medium capitalize ${getStatusBadgeClass(expense.status)}`}>
                     {expense.status}
                   </span>
                 </div>
               </div>
             ))}
+            
+            <Button
+              onClick={handleAddNewExpense}
+              variant="outline" 
+              className="w-full mt-3 border-sky-200 text-sky-700 hover:bg-sky-50"
+            >
+              View All Expenses
+            </Button>
           </div>
         ) : (
-          <div className="text-center py-6 bg-gray-50 rounded-md border border-dashed">
-            <p className="text-gray-500 text-sm">No recent expenses</p>
+          <div className="text-center py-4 text-sm text-gray-500">
+            No recent expenses available
           </div>
         )}
-        
-        <Button 
-          onClick={handleAddNewExpense}
-          variant="outline" 
-          className="w-full mt-3 border-sky-200 text-sky-700 hover:bg-sky-50"
-        >
-          <Plus className="h-4 w-4 mr-1" /> Add New Expense
-        </Button>
       </CardContent>
     </Card>
   );

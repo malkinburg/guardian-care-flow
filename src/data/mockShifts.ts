@@ -1,0 +1,92 @@
+
+import { ShiftProps } from "@/components/dashboard/ShiftCard";
+
+export const MOCK_SHIFTS: { [key: string]: ShiftProps[] } = {
+  upcoming: [
+    {
+      id: "shift1",
+      clientName: "John Smith",
+      location: "123 Main St, Anytown",
+      date: "2025-04-08",
+      startTime: "9:00",
+      endTime: "13:00",
+      status: "scheduled",
+    },
+    {
+      id: "shift2",
+      clientName: "Sarah Johnson",
+      location: "456 Oak Ave, Somecity",
+      date: "2025-04-09",
+      startTime: "14:00",
+      endTime: "18:00",
+      status: "scheduled",
+    },
+    {
+      id: "shift3",
+      clientName: "David Wilson",
+      location: "789 Pine Rd, Somewhere",
+      date: "2025-04-11",
+      startTime: "10:00",
+      endTime: "15:00",
+      status: "scheduled",
+    },
+  ],
+  available: [
+    {
+      id: "shift4",
+      clientName: "Emily Wilson",
+      location: "321 Elm St, Somewhere",
+      date: "2025-04-10",
+      startTime: "10:00",
+      endTime: "14:00",
+      status: "scheduled",
+    },
+    {
+      id: "shift5",
+      clientName: "Robert Davis",
+      location: "789 Pine Rd, Anyville",
+      date: "2025-04-14",
+      startTime: "13:00",
+      endTime: "17:00",
+      status: "scheduled",
+    },
+    {
+      id: "shift6",
+      clientName: "Olivia Garcia",
+      location: "245 Cedar Ave, Othertown",
+      date: "2025-04-15",
+      startTime: "9:00",
+      endTime: "12:00",
+      status: "scheduled",
+    },
+  ],
+  completed: [
+    {
+      id: "shift7",
+      clientName: "Mary Thompson",
+      location: "567 Cedar Lane, Othertown",
+      date: "2025-04-03",
+      startTime: "9:00",
+      endTime: "13:00",
+      status: "completed",
+    },
+    {
+      id: "shift8",
+      clientName: "James Wilson",
+      location: "890 Maple Ave, Somewhere",
+      date: "2025-04-02",
+      startTime: "14:00",
+      endTime: "18:00",
+      status: "completed",
+    },
+    {
+      id: "shift9",
+      clientName: "Patricia Moore",
+      location: "432 Birch St, Anyplace",
+      date: "2025-04-01",
+      startTime: "10:00",
+      endTime: "14:30",
+      status: "completed",
+    },
+  ],
+};

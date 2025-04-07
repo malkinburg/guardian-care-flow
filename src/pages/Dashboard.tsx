@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Calendar, Clock, MessageSquare, FileText, ChevronRight, Users } from "lucide-react";
@@ -9,9 +10,7 @@ import { formatDate } from "@/lib/date-utils";
 import { ShiftProps } from "@/components/dashboard/ShiftCard";
 import { AvailabilitySelector } from "@/components/shifts/AvailabilitySelector";
 import { MOCK_SHIFTS } from "@/data/mockShifts";
-import QuickReceiptUpload from "@/components/dashboard/QuickReceiptUpload";
-import QuickExpenseTracker from "@/components/dashboard/QuickExpenseTracker";
-import ShiftNotesAccess from "@/components/dashboard/ShiftNotesAccess";
+import CertificateComplianceCard from "@/components/certificates/CertificateComplianceCard";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -113,12 +112,16 @@ const Dashboard = () => {
           )}
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
+        <div className="grid grid-cols-2 gap-3 mb-6">
+          <CertificateComplianceCard />
           <QuickActionButton 
             icon={<Calendar className="h-5 w-5" />}
             label="Open Shifts"
             onClick={() => navigate("/shifts/available")}
           />
+        </div>
+        
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
           <QuickActionButton 
             icon={<Users className="h-5 w-5" />}
             label="Participants"
@@ -129,10 +132,6 @@ const Dashboard = () => {
             label="Timesheets"
             onClick={() => navigate("/timesheets")}
           />
-        </div>
-        
-        <div className="grid grid-cols-2 gap-3 mb-6">
-          
         </div>
         
         <div className="mb-6">

@@ -16,6 +16,7 @@ import Timesheets from "./pages/Timesheets";
 import Invoices from "./pages/Invoices";
 import Participants from "./pages/Participants";
 import Certificates from "./pages/Certificates";
+import Incidents from "./pages/Incidents";
 import NotFound from "./pages/NotFound";
 
 // Create a client outside of the component to avoid re-initializations
@@ -76,6 +77,10 @@ const App = () => {
               <Route 
                 path="/certificates" 
                 element={isAuthenticated ? <Certificates /> : <Navigate to="/login" />} 
+              />
+              <Route 
+                path="/incidents" 
+                element={isAuthenticated ? <Incidents /> : <Navigate to="/login" />} 
               />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />

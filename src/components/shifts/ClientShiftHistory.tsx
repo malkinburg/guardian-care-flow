@@ -9,6 +9,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatDate, formatTime } from "@/lib/date-utils";
 import { Clock, Calendar, FileText } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface ShiftHistoryEntry {
   id: string;
@@ -22,13 +23,32 @@ interface ClientShiftHistoryProps {
   clientId: string;
   clientName: string;
   shiftHistory: ShiftHistoryEntry[];
+  isLoading?: boolean;
 }
 
 const ClientShiftHistory = ({ 
   clientId, 
   clientName, 
-  shiftHistory 
+  shiftHistory,
+  isLoading = false
 }: ClientShiftHistoryProps) => {
+  if (isLoading) {
+    return (
+      <Card className="mb-4">
+        <CardHeader className="pb-2">
+          <Skeleton className="h-6 w-3/4" />
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            <Skeleton className="h-12 w-full" />
+            <Skeleton className="h-12 w-full" />
+            <Skeleton className="h-12 w-full" />
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
   return (
     <Card className="mb-4">
       <CardHeader className="pb-2">

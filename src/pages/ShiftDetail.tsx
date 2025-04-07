@@ -1,10 +1,11 @@
+
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import MainLayout from "@/components/layout/MainLayout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, Calendar, Clock, ArrowLeft, User, DollarSign } from "lucide-react";
+import { MapPin, Calendar, Clock, ArrowLeft, User, DollarSign, AlertCircle } from "lucide-react";
 import { formatDate, formatTime } from "@/lib/date-utils";
 import { ShiftProps } from "@/components/dashboard/ShiftCard";
 import { MOCK_SHIFTS, CLIENT_SHIFT_HISTORY } from "@/data/mockShifts";
@@ -16,6 +17,7 @@ const ShiftDetail = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [shift, setShift] = useState<ShiftProps | null>(null);
+  const [loading, setLoading] = useState(true);
   const [shiftStatus, setShiftStatus] = useState<"scheduled" | "in_progress" | "completed" | "cancelled">("scheduled");
   const [notes, setNotes] = useState("");
   const [isEditing, setIsEditing] = useState(false);
@@ -23,22 +25,28 @@ const ShiftDetail = () => {
 
   useEffect(() => {
     // In a real app, this would be an API call
-    const allShifts = Object.values(MOCK_SHIFTS).flat();
-    const foundShift = allShifts.find(shift => shift.id === id);
+    setLoading(true);
     
-    if (foundShift) {
-      setShift(foundShift);
-      setShiftStatus(foundShift.status);
+    // Simulate a short loading time
+    setTimeout(() => {
+      const allShifts = Object.values(MOCK_SHIFTS).flat();
+      const foundShift = allShifts.find(shift => shift.id === id);
       
-      // Get shift history for this client
-      const clientHistory = CLIENT_SHIFT_HISTORY[foundShift.clientName as keyof typeof CLIENT_SHIFT_HISTORY] || [];
-      setShiftHistory(clientHistory);
-      
-      // If this is a completed shift, we might have some notes already
-      if (foundShift.status === "completed") {
-        setNotes("Client was in good spirits today. Completed all scheduled activities and took medication as prescribed. Blood pressure was normal at 120/80.");
+      if (foundShift) {
+        setShift(foundShift);
+        setShiftStatus(foundShift.status);
+        
+        // Get shift history for this client
+        const clientHistory = CLIENT_SHIFT_HISTORY[foundShift.clientName as keyof typeof CLIENT_SHIFT_HISTORY] || [];
+        setShiftHistory(clientHistory);
+        
+        // If this is a completed shift, we might have some notes already
+        if (foundShift.status === "completed") {
+          setNotes("Client was in good spirits today. Completed all scheduled activities and took medication as prescribed. Blood pressure was normal at 120/80.");
+        }
       }
-    }
+      setLoading(false);
+    }, 300);
   }, [id]);
 
   const handleBackClick = () => {
@@ -61,11 +69,39 @@ const ShiftDetail = () => {
     // In a real app, this would save to the backend
   };
 
+  if (loading) {
+    return (
+      <MainLayout title="Shift Detail">
+        <div className="flex items-center justify-center h-[70vh]">
+          <div className="animate-pulse text-sky-600 flex flex-col items-center">
+            <Clock className="h-10 w-10 mb-2" />
+            <p>Loading shift details...</p>
+          </div>
+        </div>
+      </MainLayout>
+    );
+  }
+
   if (!shift) {
     return (
       <MainLayout title="Shift Detail">
         <div className="p-4">
-          <p>Loading shift details...</p>
+          <Button 
+            variant="ghost" 
+            className="mb-4 pl-0 text-sky-700" 
+            onClick={handleBackClick}
+          >
+            <ArrowLeft className="mr-2 h-4 w-4" /> Back to Shifts
+          </Button>
+          
+          <div className="flex flex-col items-center justify-center h-[50vh] text-center">
+            <AlertCircle className="h-12 w-12 text-amber-500 mb-4" />
+            <h2 className="text-xl font-semibold mb-2">Shift Not Found</h2>
+            <p className="text-gray-500 mb-4">The shift you're looking for doesn't exist or has been removed.</p>
+            <Button onClick={() => navigate('/shifts')}>
+              View All Shifts
+            </Button>
+          </div>
         </div>
       </MainLayout>
     );

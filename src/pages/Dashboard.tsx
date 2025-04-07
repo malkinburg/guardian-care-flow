@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Calendar, Clock, MessageSquare, FileText, ChevronRight, Users, AlertTriangle } from "lucide-react";
@@ -112,13 +111,8 @@ const Dashboard = () => {
           )}
         </div>
 
-        <div className="grid grid-cols-2 gap-3 mb-6">
+        <div className="mb-6">
           <CertificateComplianceCard />
-          <QuickActionButton 
-            icon={<Calendar className="h-5 w-5" />}
-            label="Open Shifts"
-            onClick={() => navigate("/shifts/available")}
-          />
         </div>
         
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">

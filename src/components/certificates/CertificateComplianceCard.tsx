@@ -74,7 +74,7 @@ const CertificateComplianceCard = () => {
             ) : (
               <ShieldCheck className="h-5 w-5 text-green-500" />
             )}
-            <h3 className="font-medium">Certification Status</h3>
+            <h3 className="font-medium">Compliance</h3>
           </div>
           
           <Badge

@@ -1,6 +1,6 @@
 
 import { Link, useLocation } from "react-router-dom";
-import { Home, Calendar, MessageSquare, User, AlertTriangle } from "lucide-react";
+import { Home, Calendar, MessageSquare, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const MobileNavigation = () => {
@@ -16,11 +16,6 @@ const MobileNavigation = () => {
       label: "Bookings",
       icon: Calendar,
       path: "/shifts",
-    },
-    {
-      label: "Incidents",
-      icon: AlertTriangle,
-      path: "/incidents",
     },
     {
       label: "Messages",

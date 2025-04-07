@@ -6,7 +6,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Badge } from "@/components/ui/badge";
 import { format, isSameDay, parseISO } from "date-fns";
 import { Button } from "@/components/ui/button";
-import { MapPin, Clock } from "lucide-react";
+import { MapPin, Clock, Calendar as CalendarIcon, DollarSign } from "lucide-react";
 
 interface CalendarViewProps {
   shifts: ShiftProps[];
@@ -78,13 +78,10 @@ const CalendarView = ({ shifts, selectedDate, onDateSelect }: CalendarViewProps)
             shiftsForSelectedDate.map(shift => (
               <Card key={shift.id} className="border-sky-100">
                 <CardContent className="p-3">
-                  <div className="flex justify-between items-start">
+                  <div className="flex justify-between items-start mb-2">
                     <div>
-                      <p className="font-medium">{shift.clientName}</p>
-                      <p className="text-sm text-gray-500 flex items-center">
-                        <MapPin className="h-3.5 w-3.5 mr-1 text-sky-500" />
-                        {shift.location}
-                      </p>
+                      <p className="font-medium">{shift.jobTitle || "Personal Care Assistant"}</p>
+                      <p className="text-sm text-gray-600">with {shift.clientName}</p>
                     </div>
                     <Badge className={
                       shift.status === "completed" ? "bg-green-100 text-green-700" : 
@@ -94,11 +91,25 @@ const CalendarView = ({ shifts, selectedDate, onDateSelect }: CalendarViewProps)
                       {shift.status.charAt(0).toUpperCase() + shift.status.slice(1)}
                     </Badge>
                   </div>
-                  <div className="mt-2 text-sm flex justify-between">
-                    <span className="text-sky-700 flex items-center">
-                      <Clock className="h-3.5 w-3.5 mr-1 text-sky-500" />
-                      {safeFormatTime(shift.startTime)} - {safeFormatTime(shift.endTime)}
-                    </span>
+                  
+                  <div className="space-y-1.5 mb-2">
+                    <p className="text-sm flex items-center">
+                      <MapPin className="h-3.5 w-3.5 mr-2 text-sky-500" />
+                      <span className="text-gray-700">{shift.location}</span>
+                    </p>
+                    <p className="text-sm flex items-center">
+                      <Clock className="h-3.5 w-3.5 mr-2 text-sky-500" />
+                      <span className="text-gray-700">{safeFormatTime(shift.startTime)} - {safeFormatTime(shift.endTime)}</span>
+                    </p>
+                    {shift.payAmount && (
+                      <p className="text-sm flex items-center font-medium text-green-600">
+                        <DollarSign className="h-3.5 w-3.5 mr-2 text-green-500" />
+                        <span>${shift.payAmount.toFixed(2)}</span>
+                      </p>
+                    )}
+                  </div>
+                  
+                  <div className="flex justify-end">
                     <Button variant="link" className="h-auto p-0 text-sky-600">View Details</Button>
                   </div>
                 </CardContent>

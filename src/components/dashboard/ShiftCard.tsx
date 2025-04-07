@@ -1,7 +1,7 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Clock, MapPin, Calendar } from "lucide-react";
+import { Clock, MapPin, Calendar, DollarSign } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { formatDate, formatTime } from "@/lib/date-utils";
 
@@ -14,6 +14,8 @@ export interface ShiftProps {
   endTime: string;
   status: "scheduled" | "completed" | "cancelled";
   onViewDetails?: (id: string) => void;
+  jobTitle?: string;
+  payAmount?: number;
 }
 
 const ShiftCard = ({ 
@@ -24,7 +26,9 @@ const ShiftCard = ({
   startTime, 
   endTime, 
   status,
-  onViewDetails
+  onViewDetails,
+  jobTitle = "Personal Care Assistant",
+  payAmount
 }: ShiftProps) => {
   const statusColors = {
     scheduled: "bg-blue-100 text-care-blue",
@@ -36,26 +40,37 @@ const ShiftCard = ({
     <Card className="overflow-hidden hover:shadow-md transition-shadow border-sky-50">
       <CardHeader className="pb-2 bg-sky-50/50">
         <div className="flex justify-between items-start">
-          <CardTitle className="text-lg font-semibold">{clientName}</CardTitle>
+          <div>
+            <CardTitle className="text-lg font-semibold">{jobTitle}</CardTitle>
+            <CardDescription className="text-sm">
+              with {clientName}
+            </CardDescription>
+          </div>
           <Badge className={statusColors[status]}>
             {status.charAt(0).toUpperCase() + status.slice(1)}
           </Badge>
         </div>
-        <CardDescription className="flex items-center mt-1">
-          <MapPin className="h-3.5 w-3.5 mr-1 text-muted-foreground" />
-          {location}
-        </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-2 gap-2 mb-3">
-          <div className="flex items-center text-sm bg-sky-50 p-2 rounded-lg">
-            <Calendar className="h-3.5 w-3.5 mr-1 text-sky-500" />
+        <div className="space-y-2 mb-3">
+          <div className="flex items-center text-sm">
+            <MapPin className="h-3.5 w-3.5 mr-2 text-sky-500" />
+            <span>{location}</span>
+          </div>
+          <div className="flex items-center text-sm">
+            <Calendar className="h-3.5 w-3.5 mr-2 text-sky-500" />
             <span>{formatDate(date)}</span>
           </div>
-          <div className="flex items-center text-sm justify-end bg-sky-50 p-2 rounded-lg">
-            <Clock className="h-3.5 w-3.5 mr-1 text-sky-500" />
+          <div className="flex items-center text-sm">
+            <Clock className="h-3.5 w-3.5 mr-2 text-sky-500" />
             <span>{formatTime(startTime)} - {formatTime(endTime)}</span>
           </div>
+          {payAmount && (
+            <div className="flex items-center text-sm font-medium text-green-600">
+              <DollarSign className="h-3.5 w-3.5 mr-2 text-green-500" />
+              <span>${payAmount.toFixed(2)}</span>
+            </div>
+          )}
         </div>
         <Button 
           variant="outline" 

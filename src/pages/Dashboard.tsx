@@ -10,6 +10,7 @@ import { ShiftProps } from "@/components/dashboard/ShiftCard";
 import { AvailabilitySelector } from "@/components/shifts/AvailabilitySelector";
 import { MOCK_SHIFTS } from "@/data/mockShifts";
 import CertificateComplianceCard from "@/components/certificates/CertificateComplianceCard";
+import CompanionCardsCard from "@/components/companion/CompanionCardsCard";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -111,8 +112,9 @@ const Dashboard = () => {
           )}
         </div>
 
-        <div className="mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
           <CertificateComplianceCard />
+          <CompanionCardsCard />
         </div>
         
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">

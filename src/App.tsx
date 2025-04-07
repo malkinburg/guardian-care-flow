@@ -9,7 +9,7 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Shifts from "./pages/Shifts";
 import Clients from "./pages/Clients";
-import Resources from "./pages/Resources";
+import Messages from "./pages/Messages";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 
@@ -41,8 +41,8 @@ const App = () => {
                 element={isAuthenticated ? <Clients /> : <Navigate to="/login" />} 
               />
               <Route 
-                path="/resources" 
-                element={isAuthenticated ? <Resources /> : <Navigate to="/login" />} 
+                path="/messages" 
+                element={isAuthenticated ? <Messages /> : <Navigate to="/login" />} 
               />
               <Route 
                 path="/profile" 

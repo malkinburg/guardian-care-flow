@@ -1,6 +1,6 @@
 
 import { Link, useLocation } from "react-router-dom";
-import { Home, Calendar, FileText, User } from "lucide-react";
+import { Home, Calendar, MessageSquare, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const MobileNavigation = () => {
@@ -18,9 +18,9 @@ const MobileNavigation = () => {
       path: "/shifts",
     },
     {
-      label: "Resources",
-      icon: FileText,
-      path: "/resources",
+      label: "Messages",
+      icon: MessageSquare,
+      path: "/messages",
     },
     {
       label: "Profile",

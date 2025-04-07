@@ -3,6 +3,7 @@ import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ShiftCard, { ShiftProps } from "@/components/dashboard/ShiftCard";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { Users } from "lucide-react";
 
 interface ShiftTabsProps {
   activeTab: string;
@@ -68,8 +69,9 @@ const ShiftTabs = ({
         {filteredShifts.available.length > 0 ? (
           <>
             {!selectedDate && (
-              <div className="bg-purple-50 p-3 rounded-md text-purple-700 text-sm mb-4">
-                <p>These shifts are available to claim. Respond quickly before they're taken!</p>
+              <div className="bg-purple-50 p-3 rounded-md text-purple-700 text-sm mb-4 flex items-center">
+                <Users className="h-4 w-4 mr-2" />
+                <p>These shifts are available for your participants. Respond quickly before they're taken!</p>
               </div>
             )}
             {filteredShifts.available.map(shift => (

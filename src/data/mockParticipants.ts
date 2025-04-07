@@ -10,7 +10,10 @@ export const MOCK_PARTICIPANTS: Participant[] = [
     age: 67,
     supportNeeds: ["Mobility assistance", "Medication management"],
     nextAppointment: "2023-09-18",
-    lastVisit: "2023-09-10"
+    lastVisit: "2023-09-10",
+    skills: ["Home Care", "Personal Care", "Medication Management"],
+    availability: ["2025-04-08", "2025-04-10", "2025-04-14"],
+    rating: 4.8
   },
   {
     id: "p2",
@@ -20,7 +23,10 @@ export const MOCK_PARTICIPANTS: Participant[] = [
     age: 72,
     supportNeeds: ["Personal care", "Meal preparation"],
     nextAppointment: "2023-09-19",
-    lastVisit: "2023-09-12"
+    lastVisit: "2023-09-12",
+    skills: ["Meal Preparation", "Senior Care", "Home Health"],
+    availability: ["2025-04-09", "2025-04-14", "2025-04-15"],
+    rating: 4.5
   },
   {
     id: "p3",
@@ -30,7 +36,10 @@ export const MOCK_PARTICIPANTS: Participant[] = [
     age: 65,
     supportNeeds: ["Companionship", "Light housekeeping"],
     nextAppointment: "2023-09-20",
-    lastVisit: "2023-09-11"
+    lastVisit: "2023-09-11",
+    skills: ["Companion Care", "Light Housekeeping", "Social Activities"],
+    availability: ["2025-04-08", "2025-04-10", "2025-04-11"],
+    rating: 4.9
   },
   {
     id: "p4",
@@ -40,7 +49,10 @@ export const MOCK_PARTICIPANTS: Participant[] = [
     age: 78,
     supportNeeds: ["Transportation", "Shopping assistance"],
     nextAppointment: "2023-09-21",
-    lastVisit: "2023-09-13"
+    lastVisit: "2023-09-13",
+    skills: ["Transportation", "Shopping Assistance", "Personal Care"],
+    availability: ["2025-04-10", "2025-04-14", "2025-04-15"],
+    rating: 4.6
   },
   {
     id: "p5",
@@ -50,6 +62,9 @@ export const MOCK_PARTICIPANTS: Participant[] = [
     age: 70,
     supportNeeds: ["Cognitive support", "Social activities"],
     nextAppointment: "2023-09-22",
-    lastVisit: "2023-09-14"
+    lastVisit: "2023-09-14",
+    skills: ["Cognitive Support", "Social Activities", "Home Care"],
+    availability: ["2025-04-09", "2025-04-11", "2025-04-15"],
+    rating: 4.7
   }
 ];

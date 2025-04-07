@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import MainLayout from "@/components/layout/MainLayout";
@@ -12,6 +13,7 @@ import ShiftActions from "@/components/shifts/ShiftActions";
 import ShiftNotes from "@/components/shifts/ShiftNotes";
 import ClientShiftHistory from "@/components/shifts/ClientShiftHistory";
 import ShiftResponseActions from "@/components/shifts/ShiftResponseActions";
+import PotentialWorkers from "@/components/shifts/PotentialWorkers";
 import { useToast } from "@/hooks/use-toast";
 import { MOCK_PARTICIPANTS } from "@/data/mockParticipants";
 import { Participant } from "@/types/participants";
@@ -27,6 +29,7 @@ const ShiftDetail = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [shiftHistory, setShiftHistory] = useState<any[]>([]);
   const [linkedParticipants, setLinkedParticipants] = useState<Participant[]>([]);
+  const [potentialWorkers, setPotentialWorkers] = useState<Participant[]>([]);
 
   useEffect(() => {
     // In a real app, this would be an API call
@@ -67,6 +70,15 @@ const ShiftDetail = () => {
         } else {
           // Otherwise show a sample of participants they might assist
           setLinkedParticipants(MOCK_PARTICIPANTS.slice(0, 1));
+        }
+
+        // For available shifts, find potential workers based on skills and availability
+        if (foundShift.status === "available") {
+          // Filter workers who are available on the shift date
+          const availableWorkers = MOCK_PARTICIPANTS.filter(worker => 
+            worker.availability?.includes(foundShift.date)
+          );
+          setPotentialWorkers(availableWorkers);
         }
       }
       setLoading(false);
@@ -127,6 +139,13 @@ const ShiftDetail = () => {
     toast({
       title: "Feature coming soon",
       description: "The participant detail view is coming soon."
+    });
+  };
+
+  const handleContactWorker = (workerId: string) => {
+    toast({
+      title: "Worker contacted",
+      description: "The worker has been notified about this shift opportunity."
     });
   };
 
@@ -270,6 +289,16 @@ const ShiftDetail = () => {
                 </div>
               </CardContent>
             </Card>
+          )}
+
+          {/* Potential Workers for Available Shifts */}
+          {shift.status === "available" && potentialWorkers.length > 0 && (
+            <PotentialWorkers
+              date={shift.date}
+              jobTitle={shift.jobTitle || "Personal Care Assistant"}
+              potentialWorkers={potentialWorkers}
+              onContactWorker={handleContactWorker}
+            />
           )}
 
           {/* Accept/Decline Actions for Available Shifts */}

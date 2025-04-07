@@ -1,7 +1,7 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import QuickIncidentReport from "./QuickIncidentReport";
-import QuickReceiptUpload from "./QuickReceiptUpload";
+import QuickExpenseTracker from "./QuickExpenseTracker";
 
 const QuickActions = () => {
   return (
@@ -14,7 +14,7 @@ const QuickActions = () => {
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <QuickReceiptUpload />
+          <QuickExpenseTracker />
           <QuickIncidentReport />
         </div>
       </CardContent>

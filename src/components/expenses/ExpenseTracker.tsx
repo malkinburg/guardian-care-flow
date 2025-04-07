@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
@@ -8,12 +7,13 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Camera, FileImage, Upload, X } from "lucide-react";
+import { Camera, FileImage, Upload, X, Receipt } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { formatDate } from "@/lib/date-utils";
 import { Participant } from "@/types/participants";
+import QuickReceiptUpload from "@/components/dashboard/QuickReceiptUpload";
 
 // Sample participants data for demo purposes
 const PARTICIPANTS = [
@@ -197,6 +197,33 @@ const ExpenseTracker = () => {
 
   return (
     <div className="space-y-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+        <QuickReceiptUpload />
+        
+        <Card className="p-4">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center">
+              <Receipt className="h-5 w-5 text-sky-600 mr-2" />
+              <h3 className="font-medium">Expense Summary</h3>
+            </div>
+          </div>
+          <div className="space-y-2 text-sm">
+            <div className="flex justify-between">
+              <span className="text-gray-600">This Month</span>
+              <span className="font-medium">$125.75</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-600">Pending Review</span>
+              <span className="font-medium">$24.50</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-600">Last Approved</span>
+              <span className="font-medium">April 5, 2025</span>
+            </div>
+          </div>
+        </Card>
+      </div>
+
       <div className="flex justify-between items-center">
         <h2 className="text-lg font-bold">Expense Tracker</h2>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -451,7 +478,6 @@ const ExpenseTracker = () => {
         </div>
       )}
 
-      {/* Receipt Viewer Dialog */}
       <Dialog open={viewReceiptDialog} onOpenChange={setViewReceiptDialog}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>

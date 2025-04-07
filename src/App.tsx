@@ -8,6 +8,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Shifts from "./pages/Shifts";
+import ShiftDetail from "./pages/ShiftDetail";
 import Clients from "./pages/Clients";
 import Messages from "./pages/Messages";
 import Profile from "./pages/Profile";
@@ -39,7 +40,7 @@ const App = () => {
               />
               <Route 
                 path="/shifts/:id" 
-                element={isAuthenticated ? <Shifts /> : <Navigate to="/login" />} 
+                element={isAuthenticated ? <ShiftDetail /> : <Navigate to="/login" />} 
               />
               <Route 
                 path="/clients" 

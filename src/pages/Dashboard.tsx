@@ -1,6 +1,7 @@
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Calendar, Clock, MessageSquare, FileText, ChevronRight, Users, AlertTriangle } from "lucide-react";
+import { Calendar, Clock, MessageSquare, FileText, ChevronRight, Users, AlertTriangle, Calendar as CalendarIcon } from "lucide-react";
 import MainLayout from "@/components/layout/MainLayout";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -117,7 +118,7 @@ const Dashboard = () => {
           <CompanionCardsCard />
         </div>
         
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
           <QuickActionButton 
             icon={<Users className="h-5 w-5" />}
             label="Participants"
@@ -132,6 +133,11 @@ const Dashboard = () => {
             icon={<AlertTriangle className="h-5 w-5" />}
             label="Incidents"
             onClick={() => navigate("/incidents")}
+          />
+          <QuickActionButton 
+            icon={<CalendarIcon className="h-5 w-5" />}
+            label="Events"
+            onClick={() => navigate("/events")}
           />
         </div>
         

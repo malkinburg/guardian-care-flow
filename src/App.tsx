@@ -18,6 +18,7 @@ import Participants from "./pages/Participants";
 import Certificates from "./pages/Certificates";
 import Incidents from "./pages/Incidents";
 import Companions from "./pages/Companions";
+import Events from "./pages/Events";
 import NotFound from "./pages/NotFound";
 
 // Create a client outside of the component to avoid re-initializations
@@ -86,6 +87,10 @@ const App = () => {
               <Route 
                 path="/companions" 
                 element={isAuthenticated ? <Companions /> : <Navigate to="/login" />} 
+              />
+              <Route 
+                path="/events" 
+                element={isAuthenticated ? <Events /> : <Navigate to="/login" />} 
               />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />

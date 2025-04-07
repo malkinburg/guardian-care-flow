@@ -64,6 +64,8 @@ const ExpenseTracker = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [showCamera, setShowCamera] = useState(false);
   const [cameraStream, setCameraStream] = useState<MediaStream | null>(null);
+  const [viewReceiptDialog, setViewReceiptDialog] = useState(false);
+  const [selectedReceipt, setSelectedReceipt] = useState<string | null>(null);
   const videoRef = React.useRef<HTMLVideoElement>(null);
 
   const form = useForm<ExpenseFormValues>({
@@ -168,6 +170,18 @@ const ExpenseTracker = () => {
     setSelectedImage(null);
     form.reset();
     setIsDialogOpen(false);
+  };
+
+  const handleViewReceipt = (receiptImage: string | null) => {
+    if (receiptImage) {
+      setSelectedReceipt(receiptImage);
+      setViewReceiptDialog(true);
+    } else {
+      toast({
+        title: "No Receipt",
+        description: "This expense doesn't have a receipt image attached.",
+      });
+    }
   };
 
   const getStatusBadgeClass = (status: string) => {
@@ -415,20 +429,7 @@ const ExpenseTracker = () => {
                 <Button 
                   variant="ghost" 
                   size="sm"
-                  onClick={() => {
-                    // In a real app, this would open a modal to view the receipt
-                    if (expense.receiptImage) {
-                      const win = window.open();
-                      if (win) {
-                        win.document.write(`<img src="${expense.receiptImage}" alt="Receipt" />`);
-                      }
-                    } else {
-                      toast({
-                        title: "No Receipt",
-                        description: "This expense doesn't have a receipt image attached.",
-                      });
-                    }
-                  }}
+                  onClick={() => handleViewReceipt(expense.receiptImage)}
                 >
                   View Receipt
                 </Button>
@@ -449,6 +450,27 @@ const ExpenseTracker = () => {
           </Button>
         </div>
       )}
+
+      {/* Receipt Viewer Dialog */}
+      <Dialog open={viewReceiptDialog} onOpenChange={setViewReceiptDialog}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Receipt Image</DialogTitle>
+          </DialogHeader>
+          <div className="flex justify-center py-4">
+            {selectedReceipt && (
+              <img 
+                src={selectedReceipt} 
+                alt="Receipt" 
+                className="max-w-full max-h-[60vh] rounded-md" 
+              />
+            )}
+          </div>
+          <DialogFooter>
+            <Button onClick={() => setViewReceiptDialog(false)}>Close</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

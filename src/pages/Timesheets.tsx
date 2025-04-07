@@ -1,5 +1,6 @@
+
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { ChevronRight, Plus, Clock, FileText, Download } from "lucide-react";
 import MainLayout from "@/components/layout/MainLayout";
 import { Card } from "@/components/ui/card";
@@ -49,7 +50,11 @@ const RECENT_ACTIVITY = [
 
 const Timesheets = () => {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState("timesheet");
+  const location = useLocation();
+  const locationState = location.state as { activeTab?: string } | undefined;
+  
+  // Use the activeTab from location state if provided, otherwise default to "timesheet"
+  const [activeTab, setActiveTab] = useState(locationState?.activeTab || "timesheet");
   const [selectedEntries, setSelectedEntries] = useState<string[]>([]);
 
   const handleTabChange = (value: string) => {
@@ -255,6 +260,23 @@ const Timesheets = () => {
                     <span className="text-gray-600">Year to Date</span>
                     <span className="font-medium">$5,820.00</span>
                   </div>
+                </div>
+              </Card>
+              
+              {/* Quick link to Expenses section */}
+              <Card className="p-4">
+                <div className="flex flex-col items-center text-center">
+                  <div className="bg-green-100 p-3 rounded-full mb-3">
+                    <Receipt className="h-6 w-6 text-green-600" />
+                  </div>
+                  <h3 className="font-medium mb-2">Expense Management</h3>
+                  <p className="text-sm text-gray-500 mb-4">Upload receipts and manage expenses for your clients</p>
+                  <Button 
+                    onClick={() => setActiveTab("expenses")}
+                    className="bg-green-500 hover:bg-green-600 text-white"
+                  >
+                    Manage Expenses
+                  </Button>
                 </div>
               </Card>
             </div>

@@ -1,7 +1,6 @@
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Calendar, Clock, MessageSquare, FileText, ChevronRight, Users, Calendar as CalendarIcon, Plus } from "lucide-react";
+import { Calendar, Clock, MessageSquare, FileText, ChevronRight, Users, Calendar as CalendarIcon } from "lucide-react";
 import MainLayout from "@/components/layout/MainLayout";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -68,20 +67,19 @@ const Dashboard = () => {
         <div className="relative z-10">
           <div className="flex justify-between items-start mb-6">
             <div className="flex items-center">
-              <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mr-4 relative">
-                {/* Halo effect */}
-                <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-8 h-2 bg-gradient-to-r from-transparent via-yellow-200 to-transparent rounded-full opacity-50"></div>
-                
-                {/* Main circle with cross */}
-                <div className="w-8 h-8 bg-white/90 rounded-full flex items-center justify-center relative">
-                  {/* Vertical line of cross */}
-                  <div className="absolute w-0.5 h-4 bg-sky-600 rounded-full"></div>
-                  {/* Horizontal line of cross */}
-                  <div className="absolute w-4 h-0.5 bg-sky-600 rounded-full"></div>
+              <div className="flex items-center mr-4">
+                <h1 className="text-2xl font-bold mr-2">Hello, {user?.name || "Caregiver"}</h1>
+                <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
+                  {/* Main circle with cross */}
+                  <div className="w-6 h-6 bg-white/90 rounded-full flex items-center justify-center relative">
+                    {/* Vertical line of cross */}
+                    <div className="absolute w-0.5 h-3 bg-sky-600 rounded-full"></div>
+                    {/* Horizontal line of cross */}
+                    <div className="absolute w-3 h-0.5 bg-sky-600 rounded-full"></div>
+                  </div>
                 </div>
               </div>
-              <div>
-                <h1 className="text-2xl font-bold mb-2">Hello, {user?.name || "Caregiver"}</h1>
+              <div className="ml-4">
                 <div className="flex items-center">
                   <span className="flex h-3 w-3 rounded-full bg-green-400 mr-2 animate-pulse"></span>
                   <p className="text-white/90 font-medium">Available</p>

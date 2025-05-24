@@ -1,7 +1,6 @@
 
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Plus } from "lucide-react";
 import LoginForm from "@/components/auth/LoginForm";
 
 const Login = () => {
@@ -29,19 +28,18 @@ const Login = () => {
       <div className="absolute bottom-32 right-10 w-40 h-40 bg-white/10 rounded-full blur-xl"></div>
       
       <div className="relative z-10 mb-12 text-center">
-        <div className="w-24 h-24 bg-white rounded-2xl flex items-center justify-center mb-6 mx-auto shadow-lg relative">
-          {/* Halo effect */}
-          <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-12 h-3 bg-gradient-to-r from-transparent via-yellow-300 to-transparent rounded-full opacity-60"></div>
-          
-          {/* Main circle with cross */}
-          <div className="w-12 h-12 bg-sky-100 rounded-full flex items-center justify-center relative border-2 border-sky-200">
-            {/* Vertical line of cross */}
-            <div className="absolute w-1 h-6 bg-sky-600 rounded-full"></div>
-            {/* Horizontal line of cross */}
-            <div className="absolute w-6 h-1 bg-sky-600 rounded-full"></div>
+        <div className="flex items-center justify-center mb-6">
+          <h1 className="text-4xl font-bold text-white mr-3">GuardianCare</h1>
+          <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-lg">
+            {/* Main circle with cross */}
+            <div className="w-8 h-8 bg-sky-100 rounded-full flex items-center justify-center relative border-2 border-sky-200">
+              {/* Vertical line of cross */}
+              <div className="absolute w-1 h-4 bg-sky-600 rounded-full"></div>
+              {/* Horizontal line of cross */}
+              <div className="absolute w-4 h-1 bg-sky-600 rounded-full"></div>
+            </div>
           </div>
         </div>
-        <h1 className="text-4xl font-bold text-white mb-3">GuardianCare+</h1>
         <p className="text-white/80 text-lg">Your comprehensive caregiving assistant</p>
       </div>
       

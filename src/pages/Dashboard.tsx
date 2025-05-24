@@ -59,108 +59,135 @@ const Dashboard = () => {
   
   return (
     <MainLayout>
-      <div className="px-4 py-6 bg-gradient-to-r from-sky-500 to-sky-400 text-white rounded-b-3xl mb-4">
-        <div className="flex justify-between items-center mb-2">
-          <div>
-            <h1 className="text-xl font-semibold">Hello, {user?.name || "Caregiver"}</h1>
-            <div className="flex items-center">
-              <span className="flex h-2 w-2 rounded-full bg-green-400 mr-1.5"></span>
-              <p className="text-sm text-white/90">Available</p>
+      <div className="px-6 py-8 bg-gradient-to-br from-sky-500 via-sky-400 to-cyan-400 text-white rounded-b-[2rem] mb-6 relative overflow-hidden">
+        {/* Background decoration */}
+        <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-8 translate-x-8"></div>
+        <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full translate-y-4 -translate-x-4"></div>
+        
+        <div className="relative z-10">
+          <div className="flex justify-between items-start mb-6">
+            <div>
+              <h1 className="text-2xl font-bold mb-2">Hello, {user?.name || "Caregiver"}</h1>
+              <div className="flex items-center">
+                <span className="flex h-3 w-3 rounded-full bg-green-400 mr-2 animate-pulse"></span>
+                <p className="text-white/90 font-medium">Available</p>
+              </div>
+            </div>
+            <div className="flex space-x-3">
+              <button className="rounded-full p-3 bg-white/20 hover:bg-white/30 transition-all duration-200 backdrop-blur-sm">
+                <Clock className="h-5 w-5" />
+              </button>
+              <button className="rounded-full p-3 bg-white/20 hover:bg-white/30 transition-all duration-200 backdrop-blur-sm">
+                <MessageSquare className="h-5 w-5" />
+              </button>
             </div>
           </div>
-          <div className="flex space-x-2">
-            <button className="rounded-full p-2 bg-white/20 hover:bg-white/30 transition-colors">
-              <Clock className="h-5 w-5" />
-            </button>
-            <button className="rounded-full p-2 bg-white/20 hover:bg-white/30 transition-colors">
-              <MessageSquare className="h-5 w-5" />
-            </button>
+          
+          <div className="bg-white/15 backdrop-blur-sm rounded-2xl p-4">
+            <div className="flex justify-between items-center text-white/90">
+              <span className="font-medium">Weekly Progress</span>
+              <span className="text-sm">3h 45m</span>
+            </div>
+            <div className="mt-3 flex space-x-2">
+              <div className="flex-1 bg-white/20 rounded-full h-2">
+                <div className="bg-white rounded-full h-2 w-3/4"></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="px-4">
-        <div className="mb-6">
-          <div className="flex justify-between items-center mb-2">
-            <h2 className="text-lg font-bold">Today's Shift</h2>
-            <span className="text-sm text-gray-500">{MOCK_SHIFTS.upcoming.length} shift{MOCK_SHIFTS.upcoming.length !== 1 ? 's' : ''}</span>
+      <div className="px-6">
+        <div className="mb-8">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-xl font-bold text-gray-800">Today's Shift</h2>
+            <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+              {MOCK_SHIFTS.upcoming.length} shift{MOCK_SHIFTS.upcoming.length !== 1 ? 's' : ''}
+            </span>
           </div>
 
           {todayShift ? (
-            <Card className="bg-gradient-to-b from-white to-sky-50/50 shadow-md rounded-xl overflow-hidden hover:shadow-lg transition-shadow transform hover:-translate-y-1 duration-300 border border-sky-100/80">
-              <div className="p-4">
-                <div className="flex items-center mb-2">
-                  <Badge className="bg-green-100 text-green-600 font-medium rounded-full px-3">Accepted</Badge>
+            <Card className="bg-gradient-to-br from-white to-blue-50/30 shadow-lg rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border-0">
+              <div className="p-6">
+                <div className="flex items-center mb-4">
+                  <Badge className="bg-green-100 text-green-700 font-medium rounded-full px-4 py-1">Accepted</Badge>
                 </div>
-                <div className="text-lg font-semibold">
-                  {todayShift.startTime} - {todayShift.endTime} ({
-                    calculateHourDifference(todayShift.startTime, todayShift.endTime)
-                  }hrs)
+                <div className="text-xl font-bold text-gray-800 mb-2">
+                  {todayShift.startTime} - {todayShift.endTime}
                 </div>
-                <div className="text-sm text-gray-500 mb-2">{formatDate(todayShift.date)}</div>
+                <div className="text-sm text-gray-600 mb-1">
+                  {calculateHourDifference(todayShift.startTime, todayShift.endTime)} • {formatDate(todayShift.date)}
+                </div>
 
-                <div className="pt-2 border-t mt-3 flex justify-between">
+                <div className="pt-4 border-t border-gray-100 mt-4 flex justify-between items-center">
+                  <span className="text-gray-500 text-sm">View Details</span>
                   <ChevronRight className="h-5 w-5 text-gray-400" />
                 </div>
               </div>
             </Card>
           ) : (
-            <Card className="bg-gradient-to-b from-white to-sky-50/50 shadow-md rounded-xl p-4 text-center hover:shadow-lg transition-shadow transform hover:-translate-y-1 duration-300 border border-sky-100/80">
-              <p className="text-gray-500">No shifts scheduled for today</p>
+            <Card className="bg-gradient-to-br from-white to-blue-50/30 shadow-lg rounded-2xl p-8 text-center hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border-0">
+              <div className="bg-sky-100 text-sky-600 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                <Calendar className="h-8 w-8" />
+              </div>
+              <h3 className="font-bold text-lg mb-2 text-gray-800">No Shifts Today</h3>
+              <p className="text-sm text-gray-500">
+                Once you accept a shift, you will see them right here
+              </p>
             </Card>
           )}
         </div>
 
-        <div className="mb-6">
+        <div className="mb-8">
           <CertificateComplianceCard />
         </div>
         
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
           <QuickActionButton 
-            icon={<Users className="h-5 w-5" />}
+            icon={<Users className="h-6 w-6" />}
             label="Participants"
             onClick={() => navigate("/participants")}
           />
           <QuickActionButton 
-            icon={<FileText className="h-5 w-5" />}
+            icon={<FileText className="h-6 w-6" />}
             label="Timesheets"
             onClick={() => navigate("/timesheets")}
           />
           <QuickActionButton 
-            icon={<AlertTriangle className="h-5 w-5" />}
+            icon={<AlertTriangle className="h-6 w-6" />}
             label="Incidents"
             onClick={() => navigate("/incidents")}
           />
           <QuickActionButton 
-            icon={<CalendarIcon className="h-5 w-5" />}
+            icon={<CalendarIcon className="h-6 w-6" />}
             label="Events"
             onClick={() => navigate("/events")}
           />
         </div>
         
-        <div className="mb-6">
-          <div className="flex justify-between items-center mb-2">
-            <h2 className="text-lg font-bold">Upcoming Shift</h2>
-            <Button variant="ghost" size="sm" className="text-sky-500 font-medium p-0" onClick={() => navigate("/shifts")}>
+        <div className="mb-8">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-xl font-bold text-gray-800">Upcoming Shifts</h2>
+            <Button variant="ghost" size="sm" className="text-sky-600 font-medium p-0 hover:bg-sky-50" onClick={() => navigate("/shifts")}>
               View all <ChevronRight className="h-4 w-4 ml-1" />
             </Button>
           </div>
           
           {MOCK_SHIFTS.upcoming.length > 1 ? (
-            <Card className="bg-gradient-to-b from-white to-sky-50/50 shadow-md rounded-xl p-4 hover:shadow-lg transition-shadow transform hover:-translate-y-1 duration-300 border border-sky-100/80">
-              <div className="text-lg font-semibold">
+            <Card className="bg-gradient-to-br from-white to-blue-50/30 shadow-lg rounded-2xl p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border-0">
+              <div className="text-lg font-bold text-gray-800 mb-1">
                 {MOCK_SHIFTS.upcoming[1].startTime} - {MOCK_SHIFTS.upcoming[1].endTime}
               </div>
-              <div className="text-sm text-gray-500">{formatDate(MOCK_SHIFTS.upcoming[1].date)}</div>
-              <div className="mt-2 text-gray-700">{MOCK_SHIFTS.upcoming[1].clientName}</div>
+              <div className="text-sm text-gray-500 mb-3">{formatDate(MOCK_SHIFTS.upcoming[1].date)}</div>
+              <div className="text-gray-700 font-medium">{MOCK_SHIFTS.upcoming[1].clientName}</div>
               <div className="text-sm text-gray-500">{MOCK_SHIFTS.upcoming[1].location}</div>
             </Card>
           ) : (
-            <Card className="bg-gradient-to-b from-white to-blue-50/30 shadow-md rounded-xl p-6 flex flex-col items-center justify-center hover:shadow-lg transition-shadow transform hover:-translate-y-1 duration-300 border border-sky-100/80">
-              <div className="bg-sky-500 text-white rounded-full p-4 mb-3">
-                <Calendar className="h-6 w-6" />
+            <Card className="bg-gradient-to-br from-white to-blue-50/30 shadow-lg rounded-2xl p-8 flex flex-col items-center justify-center hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border-0">
+              <div className="bg-sky-100 text-sky-600 rounded-full p-4 mb-4 flex items-center justify-center">
+                <Calendar className="h-8 w-8" />
               </div>
-              <h3 className="font-bold text-lg mb-1">No Upcoming Shift</h3>
+              <h3 className="font-bold text-lg mb-2 text-gray-800">No Upcoming Shifts</h3>
               <p className="text-sm text-gray-500 text-center">
                 Once you accept a shift, you will see them right here
               </p>
@@ -191,16 +218,16 @@ const QuickActionButton = ({
   notificationCount?: number;
 }) => (
   <button 
-    className="flex flex-col items-center justify-center bg-gradient-to-br from-white to-sky-50 rounded-xl shadow-sm p-4 relative hover:shadow-md transition-all duration-300 transform hover:-translate-y-1 border border-sky-100/50"
+    className="flex flex-col items-center justify-center bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-md p-6 relative hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border-0 group"
     onClick={onClick}
   >
-    <div className="mb-1 text-sky-500">
+    <div className="mb-3 text-sky-600 group-hover:text-sky-700 transition-colors">
       {icon}
     </div>
-    <span className="text-xs font-medium">{label}</span>
+    <span className="text-sm font-medium text-gray-700 group-hover:text-gray-800">{label}</span>
     
     {notificationCount && (
-      <span className="absolute top-1 right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+      <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-6 w-6 flex items-center justify-center shadow-lg">
         {notificationCount}
       </span>
     )}

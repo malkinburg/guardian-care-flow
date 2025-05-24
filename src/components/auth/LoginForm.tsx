@@ -41,17 +41,17 @@ const LoginForm = () => {
   };
 
   return (
-    <Card className="w-full max-w-md mx-auto">
-      <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl font-bold text-center">Sign In</CardTitle>
-        <CardDescription className="text-center">
-          Enter your credentials to access your account
+    <Card className="w-full bg-white/95 backdrop-blur-md border-0 shadow-2xl rounded-3xl overflow-hidden">
+      <CardHeader className="space-y-1 pb-8 pt-8">
+        <CardTitle className="text-2xl font-bold text-center text-gray-800">Welcome Back</CardTitle>
+        <CardDescription className="text-center text-gray-600">
+          Sign in to continue to your account
         </CardDescription>
       </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
+      <CardContent className="px-8">
+        <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email" className="text-gray-700 font-medium">Email</Label>
             <Input
               id="email"
               type="email"
@@ -59,12 +59,13 @@ const LoginForm = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              className="h-12 rounded-xl border-gray-200 focus:border-sky-400 focus:ring-sky-400 bg-gray-50 text-gray-800 placeholder:text-gray-400"
             />
           </div>
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <Label htmlFor="password">Password</Label>
-              <Button variant="link" className="p-0 h-auto text-sm" type="button" onClick={() => navigate("/forgot-password")}>
+              <Label htmlFor="password" className="text-gray-700 font-medium">Password</Label>
+              <Button variant="link" className="p-0 h-auto text-sm text-sky-600 hover:text-sky-700" type="button">
                 Forgot password?
               </Button>
             </div>
@@ -75,15 +76,20 @@ const LoginForm = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              className="h-12 rounded-xl border-gray-200 focus:border-sky-400 focus:ring-sky-400 bg-gray-50 text-gray-800"
             />
           </div>
-          <Button type="submit" className="w-full" disabled={isLoading}>
+          <Button 
+            type="submit" 
+            className="w-full h-12 bg-gray-800 hover:bg-gray-900 text-white rounded-xl font-medium text-base transition-all duration-200 shadow-lg hover:shadow-xl" 
+            disabled={isLoading}
+          >
             {isLoading ? "Signing in..." : "Sign In"}
           </Button>
         </form>
       </CardContent>
-      <CardFooter className="flex justify-center">
-        <Button variant="link" className="text-sm" type="button" onClick={() => navigate("/register")}>
+      <CardFooter className="flex justify-center pb-8">
+        <Button variant="link" className="text-sm text-gray-600 hover:text-gray-800" type="button">
           Don't have an account? Sign up
         </Button>
       </CardFooter>

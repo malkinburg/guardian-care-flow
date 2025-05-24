@@ -95,6 +95,17 @@ const Shifts = ({ initialTab }: ShiftsProps) => {
 
   return (
     <MainLayout title="Shifts">
+      <div className="bg-gradient-to-br from-sky-500 via-sky-400 to-cyan-400 text-white mx-4 rounded-2xl p-6 mb-6 relative overflow-hidden">
+        {/* Background decoration */}
+        <div className="absolute top-0 right-0 w-24 h-24 bg-white/10 rounded-full -translate-y-4 translate-x-4"></div>
+        <div className="absolute bottom-0 left-0 w-20 h-20 bg-white/10 rounded-full translate-y-2 -translate-x-2"></div>
+        
+        <div className="relative z-10">
+          <h2 className="text-xl font-bold mb-2">Your Schedule</h2>
+          <p className="text-white/80">Manage your shifts and availability</p>
+        </div>
+      </div>
+
       <ShiftViewControls 
         selectedDate={selectedDate}
         setSelectedDate={setSelectedDate}
@@ -105,39 +116,47 @@ const Shifts = ({ initialTab }: ShiftsProps) => {
       />
 
       {viewMode === "calendar" && (
-        <div className="mb-4">
-          <DaySelector 
-            selectedDate={selectedDate} 
-            onDateSelect={setSelectedDate} 
-          />
+        <div className="mb-6 px-4">
+          <div className="bg-white rounded-2xl shadow-lg p-4">
+            <DaySelector 
+              selectedDate={selectedDate} 
+              onDateSelect={setSelectedDate} 
+            />
+          </div>
         </div>
       )}
 
-      <div className="px-4 mb-4">
+      <div className="px-4 mb-6">
         <Button 
           onClick={() => setAvailabilityModalOpen(true)}
-          className="w-full bg-sky-500 hover:bg-sky-600 text-white"
+          className="w-full bg-gradient-to-r from-sky-500 to-cyan-500 hover:from-sky-600 hover:to-cyan-600 text-white h-12 rounded-2xl font-medium shadow-lg hover:shadow-xl transition-all duration-200"
         >
-          <Clock className="mr-2 h-4 w-4" />
+          <Clock className="mr-2 h-5 w-5" />
           Set My Availability
         </Button>
       </div>
 
       {viewMode === "list" ? (
-        <ShiftTabs 
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
-          filteredShifts={filteredShifts}
-          handleViewDetails={handleViewDetails}
-          selectedDate={selectedDate}
-        />
+        <div className="px-4">
+          <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+            <ShiftTabs 
+              activeTab={activeTab}
+              setActiveTab={setActiveTab}
+              filteredShifts={filteredShifts}
+              handleViewDetails={handleViewDetails}
+              selectedDate={selectedDate}
+            />
+          </div>
+        </div>
       ) : (
         <div className="px-4">
-          <CalendarView 
-            shifts={Object.values(MOCK_SHIFTS).flat()} 
-            selectedDate={selectedDate || new Date()}
-            onDateSelect={setSelectedDate}
-          />
+          <div className="bg-white rounded-2xl shadow-lg p-4">
+            <CalendarView 
+              shifts={Object.values(MOCK_SHIFTS).flat()} 
+              selectedDate={selectedDate || new Date()}
+              onDateSelect={setSelectedDate}
+            />
+          </div>
         </div>
       )}
 

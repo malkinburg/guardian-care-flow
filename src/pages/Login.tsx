@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Briefcase, Cross } from "lucide-react";
+import { Briefcase, Plus } from "lucide-react";
 import LoginForm from "@/components/auth/LoginForm";
 
 const Login = () => {
@@ -32,12 +32,12 @@ const Login = () => {
         <div className="w-24 h-24 bg-white rounded-2xl flex items-center justify-center mb-6 mx-auto shadow-lg relative">
           <div className="relative">
             <Briefcase className="w-8 h-8 text-sky-500" />
-            <div className="absolute -top-1 -right-1 w-4 h-4 bg-sky-500 rounded-full flex items-center justify-center">
-              <Cross className="w-2.5 h-2.5 text-white" />
+            <div className="absolute top-1 left-1/2 transform -translate-x-1/2">
+              <Plus className="w-3 h-3 text-sky-500" />
             </div>
           </div>
         </div>
-        <h1 className="text-4xl font-bold text-white mb-3">Guardian Care Plus</h1>
+        <h1 className="text-4xl font-bold text-white mb-3">GuardianCare+</h1>
         <p className="text-white/80 text-lg">Your comprehensive caregiving assistant</p>
       </div>
       

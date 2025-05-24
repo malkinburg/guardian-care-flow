@@ -1,7 +1,6 @@
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Calendar, Clock, MessageSquare, FileText, ChevronRight, Users, Calendar as CalendarIcon, Briefcase, Cross } from "lucide-react";
+import { Calendar, Clock, MessageSquare, FileText, ChevronRight, Users, Calendar as CalendarIcon, Briefcase, Cross, Plus } from "lucide-react";
 import MainLayout from "@/components/layout/MainLayout";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -70,8 +69,8 @@ const Dashboard = () => {
             <div className="flex items-center">
               <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mr-4 relative">
                 <Briefcase className="w-6 h-6 text-white" />
-                <div className="absolute -top-1 -right-1 w-3 h-3 bg-white rounded-full flex items-center justify-center">
-                  <Cross className="w-2 h-2 text-sky-500" />
+                <div className="absolute top-1.5 left-1/2 transform -translate-x-1/2">
+                  <Plus className="w-2.5 h-2.5 text-white" />
                 </div>
               </div>
               <div>

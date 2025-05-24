@@ -1,6 +1,7 @@
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Calendar, Clock, MessageSquare, FileText, ChevronRight, Users, Calendar as CalendarIcon, Briefcase, Cross, Plus } from "lucide-react";
+import { Calendar, Clock, MessageSquare, FileText, ChevronRight, Users, Calendar as CalendarIcon, Plus } from "lucide-react";
 import MainLayout from "@/components/layout/MainLayout";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -68,9 +69,15 @@ const Dashboard = () => {
           <div className="flex justify-between items-start mb-6">
             <div className="flex items-center">
               <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mr-4 relative">
-                <Briefcase className="w-6 h-6 text-white" />
-                <div className="absolute top-1.5 left-1/2 transform -translate-x-1/2">
-                  <Plus className="w-2.5 h-2.5 text-white" />
+                {/* Halo effect */}
+                <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-8 h-2 bg-gradient-to-r from-transparent via-yellow-200 to-transparent rounded-full opacity-50"></div>
+                
+                {/* Main circle with cross */}
+                <div className="w-8 h-8 bg-white/90 rounded-full flex items-center justify-center relative">
+                  {/* Vertical line of cross */}
+                  <div className="absolute w-0.5 h-4 bg-sky-600 rounded-full"></div>
+                  {/* Horizontal line of cross */}
+                  <div className="absolute w-4 h-0.5 bg-sky-600 rounded-full"></div>
                 </div>
               </div>
               <div>

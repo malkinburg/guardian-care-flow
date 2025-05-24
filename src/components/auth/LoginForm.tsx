@@ -27,7 +27,7 @@ const LoginForm = () => {
         localStorage.setItem("user", JSON.stringify({ email, name: "Demo User" }));
         toast({
           title: "Login successful",
-          description: "Welcome to Guardian Care Pro!",
+          description: "Welcome to Guardian Care Plus!",
         });
         navigate("/");
       } else {

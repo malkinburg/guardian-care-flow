@@ -1,6 +1,7 @@
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Calendar, Clock, MessageSquare, FileText, ChevronRight, Users, AlertTriangle, Calendar as CalendarIcon } from "lucide-react";
+import { Calendar, Clock, MessageSquare, FileText, ChevronRight, Users, Calendar as CalendarIcon, Briefcase, Cross } from "lucide-react";
 import MainLayout from "@/components/layout/MainLayout";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -66,11 +67,19 @@ const Dashboard = () => {
         
         <div className="relative z-10">
           <div className="flex justify-between items-start mb-6">
-            <div>
-              <h1 className="text-2xl font-bold mb-2">Hello, {user?.name || "Caregiver"}</h1>
-              <div className="flex items-center">
-                <span className="flex h-3 w-3 rounded-full bg-green-400 mr-2 animate-pulse"></span>
-                <p className="text-white/90 font-medium">Available</p>
+            <div className="flex items-center">
+              <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mr-4 relative">
+                <Briefcase className="w-6 h-6 text-white" />
+                <div className="absolute -top-1 -right-1 w-3 h-3 bg-white rounded-full flex items-center justify-center">
+                  <Cross className="w-2 h-2 text-sky-500" />
+                </div>
+              </div>
+              <div>
+                <h1 className="text-2xl font-bold mb-2">Hello, {user?.name || "Caregiver"}</h1>
+                <div className="flex items-center">
+                  <span className="flex h-3 w-3 rounded-full bg-green-400 mr-2 animate-pulse"></span>
+                  <p className="text-white/90 font-medium">Available</p>
+                </div>
               </div>
             </div>
             <div className="flex space-x-3">
@@ -154,14 +163,14 @@ const Dashboard = () => {
             onClick={() => navigate("/timesheets")}
           />
           <QuickActionButton 
-            icon={<AlertTriangle className="h-6 w-6" />}
-            label="Incidents"
-            onClick={() => navigate("/incidents")}
-          />
-          <QuickActionButton 
             icon={<CalendarIcon className="h-6 w-6" />}
             label="Events"
             onClick={() => navigate("/events")}
+          />
+          <QuickActionButton 
+            icon={<MessageSquare className="h-6 w-6" />}
+            label="Messages"
+            onClick={() => navigate("/messages")}
           />
         </div>
         
